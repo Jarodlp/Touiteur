@@ -9,11 +9,11 @@ class User{
     protected String $firstName;
     protected String $lastName;
 
-    public function __construct($u,$pw,$mail,$fN,$lN){
-        $this->username=$u;
-        $this->password=$pw;
-        $this->email=$mail;
-        $this->firstName=$fN;
-        $this->lastName=$lN;
+    public function __construct($username,$password,$email,$firstName,$lastName){
+        $this->username=$username;
+        $this->password=$password;
+        $this->email=$email;
+        $this->firstName=$firstName;
+        $this->lastName=$lastName;
     }
 }
