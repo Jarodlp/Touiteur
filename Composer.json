@@ -1,0 +1,11 @@
+{
+    "name":"s3/touiteur",
+    "description":"SAE Touiteur",
+    "type":"project",
+
+    "autoload":{
+        "psr-4":{
+            "iutnc\\touiteur\\":"./src"
+        }
+    }
+}
