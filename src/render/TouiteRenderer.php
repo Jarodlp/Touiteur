@@ -1,7 +1,7 @@
 <?php
 
 namespace iutnc\touiteur\render;
-use \iutnc\touiteur\Touite;
+use \iutnc\touiteur\touite\Touite;
 
 class TouiteRenderer {
     const COMPACT = 1;

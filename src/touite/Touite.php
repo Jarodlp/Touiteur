@@ -1,6 +1,6 @@
 <?php
 
-namespace iutnc\touiteur;
+namespace iutnc\touiteur\touite;
 
 class Touite {
     public string $cheminImage;

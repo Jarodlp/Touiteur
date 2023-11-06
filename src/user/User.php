@@ -2,7 +2,7 @@
 
 namespace iutnc\touiteur\user;
 
-use \iutnc\touiteur\Touite;
+use \iutnc\touiteur\touite\Touite;
 
 class User{
     protected String $username;
