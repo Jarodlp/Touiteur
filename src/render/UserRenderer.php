@@ -1,15 +1,16 @@
 <?php
 
 namespace iutnc\touiteur\render;
-use \iutnc\touiteur\touite\Touite;
+
+use \iutnc\touiteur\user\User;
 
 class TouiteRenderer {
     const COMPACT = 1;
     const LONG = 2;
-    public Touite $touite;
+    public User $user;
 
-    public function __construct(Touite $touite) {
-        $this->touite = $touite;
+    public function __construct(User $user) {
+        $this->user = $user;
     }
 
     //affichage du touite
@@ -24,11 +25,11 @@ class TouiteRenderer {
 
     //affichage simple 
     public function renderCompact() : string {
-        return "<h1>{$this->touite->texte}</h1><br>";
+        return "<h1>{$this->user->firstName}</h1><br>";
     }
 
     //affichage complet avec toutes les infos
     public function renderLong() : string {
-        return "<h1>{$this->touite->texte} par {$this->touite->auteur}</h1><br>";
+        return "<h1>{$this->user->firstName} {$this->user->lastName}</h1><br>";
     }
 }
