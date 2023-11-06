@@ -2,6 +2,8 @@
 
 namespace iutnc\touiteur\user;
 
+use \iutnc\touiteur\Touite;
+
 class User{
     protected String $username;
     protected String $password;
@@ -15,5 +17,10 @@ class User{
         $this->email=$email;
         $this->firstName=$firstName;
         $this->lastName=$lastName;
+    }
+
+    //l'utilisateur publie un touite
+    public function publieTouite(string $texte, array $tags) : Touite {
+        return new Touite($texte, $this->username, $tags);
     }
 }
