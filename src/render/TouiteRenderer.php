@@ -23,11 +23,19 @@ class TouiteRenderer implements Renderer{
 
     //affichage simple 
     public function renderCompact() : string {
-        return "<h1>{$this->touite->texte}</h1><br>";
+        $aff="";
+        $aff.="<a href='main.php?action=display-touite&id=".$this->touite->id."'>".$this->touite->texte."</a><br>";
+        return $aff;
     }
 
     //affichage complet avec toutes les infos
     public function renderLong() : string {
-        return "<h1>{$this->touite->texte} par {$this->touite->auteur}</h1><br>";
+        $aff = "";
+        $aff.=$this->touite->texte."<br>";
+        $aff.="<a href='main.php?action=display-user&id=".$this->touite->auteur."'>Auteur : ".$this->touite->auteur."</a><br>";
+        foreach ($this->touite->tags as $key => $value) {
+            $aff.="<a href='main.php?action=display-tag&id=".$value."'>Tag : ".$value."</a><br>";
+        }
+        return $aff;
     }
 }

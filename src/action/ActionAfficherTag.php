@@ -2,7 +2,7 @@
 
 namespace iutnc\touiteur\action;
 
-class ActionAfficherTags extends Action {
+class ActionAfficherTag extends Action {
     public function execute () :string {
         $affichage = "";
 

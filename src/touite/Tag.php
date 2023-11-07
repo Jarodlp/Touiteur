@@ -8,9 +8,7 @@ class Tag{
 
     public function __construct(String $title, String $description=""){
         $this->title=$title;
-        if($description != ""){
-            $this->description=$description;
-        }
+        $this->description=$description;
     }
 
     public function addDescription($description){
