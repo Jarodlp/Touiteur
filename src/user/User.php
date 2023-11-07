@@ -30,6 +30,7 @@ class User{
 
     //l'utilisateur publie un touite
     public function publieTouite(string $texte, array $tags) : Touite {
+        //On regarde les tags présents dans le texte et on les ajout à la BD si ils n'existent pas
         return new Touite($texte, $this->username, $tags);
     }
 }
