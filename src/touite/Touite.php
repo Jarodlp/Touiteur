@@ -10,7 +10,7 @@ class Touite {
     protected array $tags;
     protected int $note;
 
-    public function __construct(string $texte, string $auteur, array $tags){
+    public function __construct(string $texte, string $auteur, array $tags=[]){
         $this->texte= $texte;
         $this->auteur = $auteur;
         $this->tags = $tags;
