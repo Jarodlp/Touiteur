@@ -65,6 +65,7 @@ class Dispatcher{
                         <li><a href="main.php?action=add-user">Inscription</a></li>
                         <li><a href="main.php?action=connexion">Connexion</a></li>
                         <li><a href="main.php?action=display-touite&param=none">Afficher tous les touites</a></li>
+                         <li><a href="main.php?action=publier-touite">Publier un touite</a></li>
                     </ul>
                 </nav>
             </body>
