@@ -36,6 +36,11 @@ class Dispatcher{
                 $affichage = $action->execute();
                 break;
 
+            case "publier-touite":
+                $action = new ActionPublierTouite();
+                $affichage = $action->execute();
+                break;
+
             default:
                 $action = new ActionDefault();
                 $affichage = $action->execute();                  
