@@ -19,6 +19,15 @@ class User{
         $this->lastName=$lastName;
     }
 
+    //getter magique
+    public function __get( string $attr) : mixed {
+        if (property_exists($this, $attr)){
+            return $this->$attr;
+        } else{
+            throw new \iutnc\touiteur\exception\InvalidNameException("$attr : invalid property");
+        }
+    }
+
     //l'utilisateur publie un touite
     public function publieTouite(string $texte, array $tags) : Touite {
         return new Touite($texte, $this->username, $tags);

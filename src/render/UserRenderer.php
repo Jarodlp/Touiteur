@@ -4,7 +4,7 @@ namespace iutnc\touiteur\render;
 
 use \iutnc\touiteur\user\User;
 
-class TouiteRenderer {
+class UserRenderer {
     const COMPACT = 1;
     const LONG = 2;
     public User $user;

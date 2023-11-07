@@ -68,12 +68,12 @@ class Dispatcher{
                 {$affichage}
                 <nav>
                     <ul>
-                        <li><a href="main.php">Acceuil</a></li>
+                        <li><a href="main.php">Accueil</a></li>
                         <li><a href="main.php?action=add-user">Inscription</a></li>
                         <li><a href="main.php?action=connexion">Connexion</a></li>
-                        <li><a href="main.php?action=display-touites">Afficher tout les touites</a></li>
-                        <li><a href="main.php?action=display-users">Afficher tout les utilisateurs</a></li>
-                        <li><a href="main.php?action=display-tags">Afficher tout les tags</a></li>
+                        <li><a href="main.php?action=display-touites">Afficher tous les touites</a></li>
+                        <li><a href="main.php?action=display-users">Afficher tous les utilisateurs</a></li>
+                        <li><a href="main.php?action=display-tags">Afficher tous les tags</a></li>
                     </ul>
                 </nav>
             </body>

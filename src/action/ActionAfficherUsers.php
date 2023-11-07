@@ -2,8 +2,8 @@
 
 namespace iutnc\touiteur\action;
 
-use \iutnc\touiteur\user\User;
-use \iutnc\touiteur\render\UserRenderer;
+use iutnc\touiteur\user\User;
+use iutnc\touiteur\render\UserRenderer;
 
 class ActionAfficherUsers extends Action {
     public function execute () : string {
