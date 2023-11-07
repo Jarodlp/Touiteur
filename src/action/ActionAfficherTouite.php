@@ -42,7 +42,7 @@ class ActionAfficherTouite extends Action {
             $affichage.=$touiteRender->render(2);
         }
         
-        //on affiche tout les touites
+        //sinon on affiche tous les touites
         else {
             //on récupère tout les touites de la BD
             $connexion = ConnectionFactory::makeConnection();

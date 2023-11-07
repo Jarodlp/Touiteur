@@ -2,11 +2,13 @@
 
 namespace iutnc\touiteur\render;
 
+use \iutnc\touiteur\touite\Tag;
+
 class TagRenderer implements Renderer{
     
-    protected \iutnc\touiteur\touite\Tag $tag;
+    protected Tag $tag;
 
-    public function __construct(\iutnc\touiteur\touite\Tag $tag){
+    public function __construct(Tag $tag){
         $this->tag=$tag;
     }
 
@@ -22,7 +24,7 @@ class TagRenderer implements Renderer{
 
     //affichage simple
     public function renderCompact() : string {
-        return "<h1>{$this->tag->title}</h1><br>";
+        return $this->tag->title."<br>";
     }
 
     //afichage long
