@@ -11,6 +11,28 @@ use \iutnc\touiteur\db\ConnectionFactory;
 class ActionAfficherTouite extends Action {
     public function execute () :string {
         $affichage = "";
+
+        switch ($_GET["param"]) {
+            //on affiche tout les touites
+            case "none":
+                break;
+
+            //on affiche un seul touite
+            case "one":
+                break;
+
+            //on affiche les touites d'un tag
+            case "tag":
+                break;
+            
+            //on affiche les touites d'un utilisateur
+            case "user":
+                break;
+            
+            default:   
+                $affichage.="Erreur de redirection";
+                
+        }
         
         //on affiche un seul touite
         if (isset($_GET["id"])) {
@@ -41,7 +63,6 @@ class ActionAfficherTouite extends Action {
             $touiteRender = new TouiteRenderer($touite);
             $affichage.=$touiteRender->render(2);
         }
-        
         //sinon on affiche tous les touites
         else {
             //on récupère tout les touites de la BD

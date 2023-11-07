@@ -36,18 +36,6 @@ class Dispatcher{
                 $affichage = $action->execute();
                 break;
 
-            //affiche tous les utilisateurs
-            case "display-user":
-                $action = new ActionAfficherUsers();
-                $affichage = $action->execute();
-                break;
-
-            //affiche tous les tags
-            case "display-tag":
-                $action = new ActionAfficherTag();
-                $affichage = $action->execute();
-                break;
-
             default:
                 $action = new ActionDefault();
                 $affichage = $action->execute();                  
@@ -71,7 +59,7 @@ class Dispatcher{
                         <li><a href="main.php">Accueil</a></li>
                         <li><a href="main.php?action=add-user">Inscription</a></li>
                         <li><a href="main.php?action=connexion">Connexion</a></li>
-                        <li><a href="main.php?action=display-touite">Afficher tous les touites</a></li>
+                        <li><a href="main.php?action=display-touite&param=none">Afficher tous les touites</a></li>
                     </ul>
                 </nav>
             </body>
