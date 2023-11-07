@@ -17,7 +17,8 @@ class ActionConnexion extends Action
                 <input type="password" name="password" placeholder="<password>" required>
                 <button type="submit">Connexion</button>
                 </form>';
-        } else if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        } 
+        else if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $username = $_POST["username"];
             $password = $_POST["password"];
 

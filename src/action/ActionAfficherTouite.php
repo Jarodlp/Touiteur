@@ -84,10 +84,10 @@ class ActionAfficherTouite extends Action {
                 INNER JOIN touitetag ON tag.idTag = touitetag.idTag
                 INNER JOIN touite ON touite.idTouite = touitetag.idTouite
                 WHERE touite.idTouite = ?";
-                $statement3 = $connexion->prepare($query3);
-                $statement3->bindParam(1, $data["idTouite"]);
-                $statement3->execute();
-                while ($data2 = $statment->fetch()) {
+                $statment3 = $connexion->prepare($query3);
+                $statment3->bindParam(1, $data["idTouite"]);
+                $statment3->execute();
+                while ($data2 = $statment3->fetch()) {
                     $tags[] = $data2["title"];
                 }
 
