@@ -4,6 +4,7 @@ namespace iutnc\touiteur\auth;
 
 use \iutnc\touiteur\db\ConnectionFactory;
 use \iutnc\touiteur\exception\AuthException;
+use iutnc\touiteur\user\User;
 
 class Auth {
     //connexion de l'utilisateur
@@ -70,7 +71,13 @@ class Auth {
 
     //charge l'utilisateur dans la session
     public static function loadProfile(string $username): void {
-        $_SESSION['username'] = $username;
+        $connexion = ConnectionFactory::makeConnection();
+        $statement = $connexion->prepare('select * FROM user WHERE username = ?');
+        $statement->bindParam(1, $username);
+        $statement->execute();
+        $result = $statement->fetch();
+        $_SESSION['user'] = new User($result['username'],$result['password'],$result['email']
+            ,$result['firstName'],$result['lastName']);
     }
 
 
