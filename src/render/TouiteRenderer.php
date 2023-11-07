@@ -33,6 +33,9 @@ class TouiteRenderer implements Renderer{
         $aff = "";
         $aff.=$this->touite->texte."<br>";
         $aff.="<a href='main.php?action=display-touite&param=user&username=".$this->touite->username."'>Auteur : ".$this->touite->username."</a><br>";
+        $aff.="<form id='form1' method='POST' action=''".
+             "<button type='submit' name='follow'>Follow {$this->touite->username}</button>".
+             "</form>";
         foreach ($this->touite->tags as $key => $value) {
             $aff.="<a href='main.php?action=display-touite&param=tag&title=".$value."'>Tag : ".$value."</a><br>";
         }
