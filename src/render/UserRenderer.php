@@ -23,12 +23,12 @@ class UserRenderer implements Renderer{
 
     //affichage simple 
     public function renderCompact() : string {
-        return "<h1>{$this->user->username}</h1><br>";
+        return "{$this->user->username}<br>";
     }
 
     //affichage complet avec toutes les infos
     public function renderLong() : string {
-        return "<h1>{$this->user->firstName} {$this->user->lastName}</h1><br>";
+        return "{$this->user->firstName} {$this->user->lastName}<br>";
     }
 
     public function __get( string $attr) : mixed {

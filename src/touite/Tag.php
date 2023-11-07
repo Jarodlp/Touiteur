@@ -15,7 +15,7 @@ class Tag{
         $this->description=$description;
     }
 
-    public function __get( string $attr) : mixed {
+    public function __get(string $attr) : mixed {
         if (property_exists($this, $attr)){
             return $this->$attr;
         } else{
