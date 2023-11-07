@@ -6,7 +6,7 @@ use iutnc\touiteur\action\ActionAddUser;
 use iutnc\touiteur\action\ActionConnexion;
 use iutnc\touiteur\action\ActionDefault;
 use iutnc\touiteur\action\ActionAfficherTouite;
-use iutnc\touiteur\action\ActionAfficherUser;
+use iutnc\touiteur\action\ActionAfficherUsers;
 use iutnc\touiteur\action\ActionAfficherTag;
 
 class Dispatcher{
@@ -38,7 +38,7 @@ class Dispatcher{
 
             //affiche tous les utilisateurs
             case "display-user":
-                $action = new ActionAfficherUser();
+                $action = new ActionAfficherUsers();
                 $affichage = $action->execute();
                 break;
 

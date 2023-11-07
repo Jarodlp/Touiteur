@@ -13,7 +13,7 @@ class ActionAfficherUsers extends Action {
 
         $stmt1=$db->prepare("SELECT * FROM user ". 
                             "WHERE user.username=:u_username");
-        $stmt1->bindParam(':u_username',$_GET['username'],\PDO::PARAM_STR);
+        $stmt1->bindParam(':u_username',$_GET["username"],\PDO::PARAM_STR);
         $stmt1->execute();
 
         //on a besoin que d'une seule ligne car on traîte un seul utilisateur
@@ -24,11 +24,12 @@ class ActionAfficherUsers extends Action {
 
         //on récupère les tweets de l'utilisateur courant affin de les afficher sur son mur
         $stmt2=$db->prepare("SELECT * FROM touite ". 
-                            "WHERE touite.username=:t_username");
-        $stmt2->bindParam('t_username',$user->username,\PDO::PARAM_STR);
+                            "WHERE touite.username = ?");
+        $username=$user->username;
+        $stmt2->bindParam(1,$username);
         $stmt2->execute();
-        while($donnees=$stmt2->fetch()){
-            $touite=new \iutnc\touiteur\touite\Touite($donnees['text'],$donnees['username']);
+        while($donnees2=$stmt2->fetch()){
+            $touite=new \iutnc\touiteur\touite\Touite($donnees2["idTouite"], $donnees2["text"], $donnees2["username"]);
             $touiteRenderer=new \iutnc\touiteur\render\TouiteRenderer($touite);
             $affichage.=$touiteRenderer->render(1);
         }
