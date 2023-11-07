@@ -71,11 +71,7 @@ class Dispatcher{
                         <li><a href="main.php">Accueil</a></li>
                         <li><a href="main.php?action=add-user">Inscription</a></li>
                         <li><a href="main.php?action=connexion">Connexion</a></li>
-                        <li><a href="main.php?action=display-touites">Afficher tous les touites</a></li>
-                        <li><a href="main.php?action=display-tags">Afficher tous les tags</a></li>
                         <li><a href="main.php?action=display-touite">Afficher tous les touites</a></li>
-                        <li><a href="main.php?action=display-user">Afficher tous les utilisateurs</a></li>
-                        <li><a href="main.php?action=display-tag">Afficher tous les tags</a></li>
                     </ul>
                 </nav>
             </body>

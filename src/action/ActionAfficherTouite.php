@@ -12,7 +12,7 @@ class ActionAfficherTouite extends Action {
     public function execute () :string {
         $affichage = "";
         
-        //on affiche un seul touite ou sinon tout les touites
+        //on affiche un seul touite
         if (isset($_GET["id"])) {
             //on récupère le touite dans la BD grâce à son id et on l'affiche avec un lien par tags et le lien de l'utilisateur
             $connexion = ConnectionFactory::makeConnection();
@@ -41,6 +41,8 @@ class ActionAfficherTouite extends Action {
             $touiteRender = new TouiteRenderer($touite);
             $affichage.=$touiteRender->render(2);
         }
+        
+        //on affiche tout les touites
         else {
             //on récupère tout les touites de la BD
             $connexion = ConnectionFactory::makeConnection();

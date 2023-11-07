@@ -6,19 +6,15 @@ class Touite {
     protected int $id;
     protected string $cheminImage;
     protected string $texte;
-    protected string $auteur;
+    protected string $username;
     protected \date $date;
     protected array $tags;
     protected int $note;
 
-<<<<<<< HEAD
-    public function __construct(string $texte, string $auteur, array $tags=[]){
-=======
-    public function __construct(int $id, string $texte, string $auteur, array $tags){
+    public function __construct(int $id, string $texte, string $username, array $tags=[]){
         $this->id = $id;
->>>>>>> 9ba18bb441232b92267ff38571f796324847284c
         $this->texte= $texte;
-        $this->auteur = $auteur;
+        $this->username = $username;
         $this->tags = $tags;
         //le touite n'a pas de note au début
         $this->note = 0;
