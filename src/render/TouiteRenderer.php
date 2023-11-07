@@ -3,10 +3,9 @@
 namespace iutnc\touiteur\render;
 use \iutnc\touiteur\touite\Touite;
 
-class TouiteRenderer {
-    const COMPACT = 1;
-    const LONG = 2;
-    public Touite $touite;
+class TouiteRenderer implements Renderer{
+    
+    protected Touite $touite;
 
     public function __construct(Touite $touite) {
         $this->touite = $touite;
