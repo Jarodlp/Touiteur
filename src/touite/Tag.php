@@ -3,12 +3,10 @@
 namespace iutnc\touiteur\touite;
 
 class Tag{
-    protected int $id;
     protected String $title;
     protected String $description;
 
-    public function __construct(int $id, String $title, String $description=""){
-        $this->id = $id;
+    public function __construct(String $title, String $description=""){
         $this->title=$title;
         $this->description=$description;
     }

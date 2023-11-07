@@ -24,7 +24,7 @@ class TouiteRenderer implements Renderer{
     //affichage simple 
     public function renderCompact() : string {
         $aff="";
-        $aff.="<a href='index.php?action=display-touites&id=".$this->touite->id."'>".$this->touite->texte."</a><br>";
+        $aff.="<a href='main.php?action=display-touite&id=".$this->touite->id."'>".$this->touite->texte."</a><br>";
         return $aff;
     }
 
@@ -32,9 +32,9 @@ class TouiteRenderer implements Renderer{
     public function renderLong() : string {
         $aff = "";
         $aff.=$this->touite->texte."<br>";
-        $aff.="<a href='index.php?action=display-user&id=".$this->touite->auteur."'>".$this->touite->auteur."</a><br>";
+        $aff.="<a href='main.php?action=display-user&id=".$this->touite->auteur."'>Auteur : ".$this->touite->auteur."</a><br>";
         foreach ($this->touite->tags as $key => $value) {
-            $aff.="<a href='index.php?action=display-tag&id=".$this->touite->auteur."'>".$value->title."</a><br>";
+            $aff.="<a href='main.php?action=display-tag&id=".$value."'>Tag : ".$value."</a><br>";
         }
         return $aff;
     }

@@ -34,7 +34,6 @@ class ActionAfficherTouite extends Action {
             $statment->bindParam(1, $data["idTouite"]);
             $statment->execute();
             while ($data2 = $statment->fetch()) {
-                var_dump($data2);
                 $tags[] = $data2["title"];
             }
 
@@ -45,7 +44,7 @@ class ActionAfficherTouite extends Action {
         else {
             //on récupère tout les touites de la BD
             $connexion = ConnectionFactory::makeConnection();
-            $query = "SELECT * FROM touite";
+            $query = "SELECT * FROM touite ORDER BY dateTouite DESC";
             $result = $connexion->query($query);
             while ($data = $result->fetch()) {
                 $texte = $data["text"];
