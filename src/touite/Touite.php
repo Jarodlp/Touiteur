@@ -3,6 +3,7 @@
 namespace iutnc\touiteur\touite;
 
 class Touite {
+    protected int $id;
     protected string $cheminImage;
     protected string $texte;
     protected string $auteur;
@@ -10,7 +11,8 @@ class Touite {
     protected array $tags;
     protected int $note;
 
-    public function __construct(string $texte, string $auteur, array $tags){
+    public function __construct(int $id, string $texte, string $auteur, array $tags){
+        $this->id = $id;
         $this->texte= $texte;
         $this->auteur = $auteur;
         $this->tags = $tags;

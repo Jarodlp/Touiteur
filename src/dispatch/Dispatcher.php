@@ -5,9 +5,9 @@ namespace iutnc\touiteur\dispatch;
 use iutnc\touiteur\action\ActionAddUser;
 use iutnc\touiteur\action\ActionConnexion;
 use iutnc\touiteur\action\ActionDefault;
-use iutnc\touiteur\action\ActionAfficherTouites;
-use iutnc\touiteur\action\ActionAfficherUsers;
-use iutnc\touiteur\action\ActionAfficherTags;
+use iutnc\touiteur\action\ActionAfficherTouite;
+use iutnc\touiteur\action\ActionAfficherUser;
+use iutnc\touiteur\action\ActionAfficherTag;
 
 class Dispatcher{
     private string $action="";
@@ -31,20 +31,20 @@ class Dispatcher{
                 break;
             
             //affiche tous les touites
-            case "display-touites":
-                $action = new ActionAfficherTouites();
+            case "display-touite":
+                $action = new ActionAfficherTouite();
                 $affichage = $action->execute();
                 break;
 
             //affiche tous les utilisateurs
-            case "display-users":
-                $action = new ActionAfficherUsers();
+            case "display-user":
+                $action = new ActionAfficherUser();
                 $affichage = $action->execute();
                 break;
 
             //affiche tous les tags
-            case "display-tags":
-                $action = new ActionAfficherTags();
+            case "display-tag":
+                $action = new ActionAfficherTag();
                 $affichage = $action->execute();
                 break;
 
@@ -71,9 +71,9 @@ class Dispatcher{
                         <li><a href="main.php">Accueil</a></li>
                         <li><a href="main.php?action=add-user">Inscription</a></li>
                         <li><a href="main.php?action=connexion">Connexion</a></li>
-                        <li><a href="main.php?action=display-touites">Afficher tous les touites</a></li>
-                        <li><a href="main.php?action=display-users">Afficher tous les utilisateurs</a></li>
-                        <li><a href="main.php?action=display-tags">Afficher tous les tags</a></li>
+                        <li><a href="main.php?action=display-touite">Afficher tous les touites</a></li>
+                        <li><a href="main.php?action=display-user">Afficher tous les utilisateurs</a></li>
+                        <li><a href="main.php?action=display-tag">Afficher tous les tags</a></li>
                     </ul>
                 </nav>
             </body>

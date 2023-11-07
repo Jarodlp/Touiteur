@@ -5,7 +5,7 @@ namespace iutnc\touiteur\action;
 use iutnc\touiteur\user\User;
 use iutnc\touiteur\render\UserRenderer;
 
-class ActionAfficherUsers extends Action {
+class ActionAfficherUser extends Action {
     public function execute () : string {
         $affichage = "";
 
