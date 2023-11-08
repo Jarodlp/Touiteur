@@ -47,6 +47,11 @@ class Dispatcher{
                 $affichage = $action->execute();
                 break;
 
+            case "followTag":
+                $action = new ActionFollowTag();
+                $affichage = $action->execute();
+                break;
+
             default:
                 $action = new ActionDefault();
                 $affichage = $action->execute();                  

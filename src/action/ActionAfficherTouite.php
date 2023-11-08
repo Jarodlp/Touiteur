@@ -76,6 +76,9 @@ class ActionAfficherTouite extends Action {
                 $tagRender = new TagRenderer($tag);
                 $affichage.=$tagRender->render(2);
 
+                //on s'abonne à ce tag
+                $affichage.="<a href='main.php?action=followTag&tagName={$tag->title}'>Suivre ce tag</a><br>";
+
                 //on affiche les touites du tag
                 $statment=$connexion->prepare("SELECT * FROM touite
                 INNER JOIN touiteTag ON touiteTag.idTouite = touite.idTouite
