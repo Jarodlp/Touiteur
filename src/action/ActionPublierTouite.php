@@ -16,7 +16,7 @@ class ActionPublierTouite extends Action {
                 <button type="submit">Publier</button>
                 </form>';
             } else {
-                $aff = "Veuillez vous connectez afin de publier un tweet";
+                $aff = "Veuillez vous connectez afin de publier un touite";
             }
         }
         else if ($this->http_method == "POST") {

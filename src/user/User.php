@@ -39,9 +39,8 @@ class User{
         $statement->bindParam(1, $auteur);
         $statement->bindParam(2, $texte);
         $statement->execute();
-
-        // On part du principe qu'un même utilisateur ne va pas publier deux fois le même message
-        $statement = $connexion->prepare('select idTouite from touite where username = ? and text = ?');
+        
+        $statement = $connexion->prepare('select max(idTouite) from touite where username = ? and text = ?');
         $statement->bindParam(1, $auteur);
         $statement->bindParam(2, $texte);
         $statement->execute();
