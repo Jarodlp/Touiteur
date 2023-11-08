@@ -19,14 +19,13 @@ class ActionConnexion extends Action
                 </form>';
         } 
         else if ($this->http_method == "POST") {
-            $username = $_POST["username"];
-            $password = $_POST["password"];
-
-            filter_var($password, FILTER_SANITIZE_SPECIAL_CHARS);
+            $username = filter_var($_POST["username"], FILTER_VALIDATE_SPECIAL_CHARS);
+            $password = filter_var($_POST["password"], FILTER_SANITIZE_SPECIAL_CHARS);
             try {
                 Auth::authenticate($username, $password);
                 $aff .= "Connexion effectuée";
-            } catch (AuthException $e) {
+            } 
+            catch (AuthException $e) {
                 $aff .= "Connexion Impossible";
             }
         }

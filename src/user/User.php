@@ -13,11 +13,11 @@ class User{
     protected String $lastName;
 
     public function __construct($username,$password,$email,$firstName,$lastName){
-        $this->username=$username;
-        $this->password=$password;
-        $this->email=$email;
-        $this->firstName=$firstName;
-        $this->lastName=$lastName;
+        $this->username = $username;
+        $this->password = $password;
+        $this->email = $email;
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
     }
 
     //getter magique
@@ -35,7 +35,7 @@ class User{
         $auteur = $this->username;
         $connexion = ConnectionFactory::makeConnection();
         // on insère le touite dans la bd et on récupère son id ensuite
-        $statement = $connexion->prepare('insert into touite(username,text,dateTouite) values (?,?,sysdate())');
+        $statement = $connexion->prepare('INSERT INTO touite(username,text,dateTouite) values (?,?,sysdate())');
         $statement->bindParam(1, $auteur);
         $statement->bindParam(2, $texte);
         $statement->execute();
@@ -66,7 +66,7 @@ class User{
             $statement->bindParam(2, $tag);
             $statement->execute();
         }
-        $tw = new Touite($idTouite,$texte,$auteur,$tags);
-        return $tw;
+        $touite = new Touite($idTouite, $texte, $auteur, $tags);
+        return $touite;
     }
 }

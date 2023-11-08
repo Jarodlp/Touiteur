@@ -34,8 +34,11 @@ class TouiteRenderer implements Renderer{
     private function renderLong() : string {
         $aff = "";
         $aff.=$this->touite->texte."<br>";
+        //on affiche l'utilisateur en lien pour afficher les touites de l'utilisateur
         $aff.="<a href='main.php?action=display-touite&param=user&username=".$this->touite->username."'>Auteur : ".$this->touite->username."</a><br>";
+        //on affiche le lien pour follow l'utilisateur
         $aff.="<a href='main.php?action=follow&username={$this->touite->username}'>Follow {$this->touite->username}</a><br>";
+        //on affiche tout les tags en lien pour afficher les touites de ces tags
         foreach ($this->touite->tags as $key => $value) {
             $aff.="<a href='main.php?action=display-touite&param=tag&title=".$value."'>Tag : ".$value."</a><br>";
         }

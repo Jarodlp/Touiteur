@@ -14,18 +14,15 @@ use \iutnc\touiteur\db\ConnectionFactory;
 class ActionAfficherTouite extends Action {
     public function execute () :string {
         $affichage = "";
-
         switch ($_GET["param"]) {
             //on affiche tout les touites
             case "none":
-                 //on récupère tous les touites de la BD
+                //on récupère tous les touites de la BD
                 $connexion = ConnectionFactory::makeConnection();
                 $query = "SELECT * FROM touite ORDER BY dateTouite DESC";
                 $result = $connexion->query($query);
                 while ($data = $result->fetch()) {
-                    $texte = $data["text"];
-                    $username = $data["username"];
-                    $touite = new Touite($data["idTouite"], $texte, $username);
+                    $touite = new Touite($data["idTouite"], $data["text"], $data["username"]);
                     $touiteRender = new TouiteRenderer($touite);
                     $affichage.=$touiteRender->render(1);
                 }
@@ -33,35 +30,33 @@ class ActionAfficherTouite extends Action {
 
             //on affiche un seul touite
             case "one":
-                $connexion = ConnectionFactory::makeConnection();
-                $erreur="";
                 //on récupère le touite dans la BD grâce à son id et on l'affiche avec un lien par tags et le lien de l'utilisateur
+                $idTouite = $_GET["id"];
+                $connexion = ConnectionFactory::makeConnection();
                 $query = "SELECT * FROM touite WHERE idTouite = ?";
                 $statement = $connexion->prepare($query);
-                $statement->bindParam(1, $_GET["id"]);
+                $statement->bindParam(1, $idTouite);
                 $statement->execute();
-                $data = $statement->fetch();
+                $donnees = $statement->fetch();
 
-                $texte = $data["text"];
-                $username = $data["username"];
+                $texte = $donnees["text"];
+                $username = $donnees["username"];
 
-                $tags = [];
                 //récupère les tags du texte du touite
-                $query3 = "SELECT title FROM tag 
+                $tags = [];
+                $query = "SELECT title FROM tag 
                 INNER JOIN touitetag ON tag.idTag = touitetag.idTag
                 INNER JOIN touite ON touite.idTouite = touitetag.idTouite
                 WHERE touite.idTouite = ?";
-                $statment3 = $connexion->prepare($query3);
-                $statment3->bindParam(1, $data["idTouite"]);
-                $statment3->execute();
-                while ($data2 = $statment3->fetch()) {
-                    $tags[] = $data2["title"];
+                $statment = $connexion->prepare($query);
+                $statment->bindParam(1, $idTouite);
+                $statment->execute();
+                while ($donnee = $statment->fetch()) {
+                    $tags[] = $donnee["title"];
                 }
-
-                $touite = new Touite($data["idTouite"], $texte, $username, $tags);
+                $touite = new Touite($idTouite, $texte, $username, $tags);
                 $touiteRender = new TouiteRenderer($touite);
                 $affichage.=$touiteRender->render(2);
-                $affichage.="<br>".$erreur;
                 break;
 
             //on affiche les touites d'un tag
@@ -75,51 +70,47 @@ class ActionAfficherTouite extends Action {
                 $tag = new Tag($data["title"], $data["descriptionTag"]);
                 $tagRender = new TagRenderer($tag);
                 $affichage.=$tagRender->render(2);
-
-                //on s'abonne à ce tag
-                $affichage.="<a href='main.php?action=followTag&tagName={$tag->title}'>Suivre ce tag</a><br>";
-
+                
                 //on affiche les touites du tag
                 $statment=$connexion->prepare("SELECT * FROM touite
                 INNER JOIN touiteTag ON touiteTag.idTouite = touite.idTouite
                 INNER JOIN tag ON tag.idTag = touiteTag.idTag 
                 WHERE tag.title = ?");
-                $tagTitle = $tag->__get("title");
-                $statment->bindParam(1, $tagTitle);
+                $statment->bindParam(1, $tag->title);
                 $statment->execute();
-                while($donnees=$statment->fetch()){
-                    $touite=new Touite($donnees["idTouite"], $donnees["text"], $donnees["username"]);
-                    $touiteRenderer=new TouiteRenderer($touite);
+                while($donnees = $statment->fetch()){
+                    $touite = new Touite($donnees["idTouite"], $donnees["text"], $donnees["username"]);
+                    $touiteRenderer = new TouiteRenderer($touite);
                     $affichage.=$touiteRenderer->render(1);
                 }
                 break;
             
             //on affiche les touites d'un utilisateur
             case "user":
-                $db = ConnectionFactory::makeConnection();
-
-                $statment=$db->prepare("SELECT * FROM user WHERE user.username=:u_username");
-                $statment->bindParam(':u_username',$_GET["username"],\PDO::PARAM_STR);
+                $connexion = ConnectionFactory::makeConnection();
+                $query = "SELECT * FROM user WHERE user.username=:u_username";
+                $statment = $connexion->prepare($query);
+                $statment->bindParam(':u_username', $_GET["username"], \PDO::PARAM_STR);
                 $statment->execute();
                 //on a besoin que d'une seule ligne car on traîte un seul utilisateur
-                $donnees=$statment->fetch();
+                $donnees = $statment->fetch();
                 $user = new User($donnees['username'],$donnees['password'],$donnees['email'],$donnees['firstName'],$donnees['lastName']);
                 $userRenderer = new UserRenderer($user);
                 $affichage.=$userRenderer->render(2);
 
-                //on récupère les tweets de l'utilisateur courant affin de les afficher sur son mur
-                $statment=$db->prepare("SELECT * FROM touite WHERE touite.username = ?");
-                $username=$user->username;
+                //on récupère les touites de l'utilisateur courant affin de les afficher sur son mur
+                $statment = $connexion->prepare("SELECT * FROM touite WHERE touite.username = ?");
+                $username = $user->username;
                 $statment->bindParam(1,$username);
                 $statment->execute();
-                while($donnees=$statment->fetch()){
-                    $touite=new Touite($donnees["idTouite"], $donnees["text"], $donnees["username"]);
-                    $touiteRenderer=new TouiteRenderer($touite);
+                while($donnees = $statment->fetch()){
+                    $touite = new Touite($donnees["idTouite"], $donnees["text"], $donnees["username"]);
+                    $touiteRenderer = new TouiteRenderer($touite);
                     $affichage.=$touiteRenderer->render(1);
                 }
                 break;
             
-            //on affiche le touites qui intéresse l'utilisateur
+            //on affiche le mur de l'utilisateur avec les touites qui l'intéressent
             case "perso":
                 //on teste si l'utilisateur est connecté
                 if (isset($_SESSION["user"])) {
@@ -142,8 +133,8 @@ class ActionAfficherTouite extends Action {
                     $statment->bindParam(2, $username);
                     $statment->execute();
                     while($donnees = $statment->fetch()){
-                        $touite=new Touite($donnees["idTouite"], $donnees["text"], $donnees["username"]);
-                        $touiteRenderer=new TouiteRenderer($touite);
+                        $touite = new Touite($donnees["idTouite"], $donnees["text"], $donnees["username"]);
+                        $touiteRenderer = new TouiteRenderer($touite);
                         $affichage.=$touiteRenderer->render(1);
                     }
                 }
@@ -153,7 +144,7 @@ class ActionAfficherTouite extends Action {
                 break;
             
                 default:   
-                $affichage.="Erreur de redirection";     
+                    $affichage.="Erreur de redirection";     
         }
         return $affichage;
     }

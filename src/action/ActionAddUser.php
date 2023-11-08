@@ -20,10 +20,10 @@ class ActionAddUser extends Action {
             $aff.="Veuillez utiliser un mot de passe de minimum 10 caractères, avec au moins un caractère spécial, une minuscule, une majuscule et un entier";
         }
         else if ($this->http_method == "POST") {
-            $username = $_POST["username"];
-            $password = $_POST["password"];
-            $prenom = $_POST["prenom"];
-            $nom = $_POST["nom"];
+            $username = filter_var($_POST["username"], FILTER_VALIDATE_SPECIAL_CHARS);
+            $password = filter_var($_POST["password"], FILTER_SANITIZE_SPECIAL_CHARS);
+            $prenom = filter_var($_POST["prenom"], FILTER_SANITIZE_STRING);
+            $nom = filter_var($_POST["nom"], FILTER_VAR_STRING);
             $email = $_POST["email"];
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $aff.="Email invalide !<br>";

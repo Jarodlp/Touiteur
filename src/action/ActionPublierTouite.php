@@ -36,17 +36,12 @@ class ActionPublierTouite extends Action {
                 }
             }
 
-
             $user = unserialize($_SESSION["user"]);
-            $touite = $user->publieTouite($texte,$tags);
+            $touite = $user->publieTouite($texte, $tags);
 
-
-            $renderer = new TouiteRenderer($touite);
-
+            $touiteRenderer = new TouiteRenderer($touite);
+            $aff .= $touiteRenderer->render(2);
             $aff = "Votre tweet a bien été publié <br>";
-
-            $aff .= $renderer->render(2);
-
         }
         return $aff;
     }
