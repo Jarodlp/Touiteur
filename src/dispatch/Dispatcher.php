@@ -9,6 +9,7 @@ use iutnc\touiteur\action\ActionAfficherTouite;
 use iutnc\touiteur\action\ActionAfficherUsers;
 use iutnc\touiteur\action\ActionAfficherTag;
 use iutnc\touiteur\action\ActionFollow;
+use iutnc\touiteur\action\ActionFollowTag;
 
 class Dispatcher{
     private string $action="";
