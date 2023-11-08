@@ -119,7 +119,40 @@ class ActionAfficherTouite extends Action {
                 }
                 break;
             
-            default:   
+            //on affiche le touites qui intéresse l'utilisateur
+            case "perso":
+                //on teste si l'utilisateur est connecté
+                if (isset($_SESSION["user"])) {
+                    $user = unserialize($_SESSION["user"]);
+                    $username = $user->username;
+                    $connexion = ConnectionFactory::makeConnection();
+                    $query = "SELECT touite.idTouite, touite.text, touite.username, touite.dateTouite FROM touite
+                    INNER JOIN touitetag ON touitetag.idTouite = touite.idTouite
+                    INNER JOIN tagfollowed ON tagfollowed.idTag = touitetag.idTag
+                    INNER JOIN user ON user.username = tagfollowed.username
+                    WHERE user.username = ?
+  		            UNION
+                    SELECT touite.idTouite, touite.text, touite.username, touite.dateTouite FROM touite
+                    INNER JOIN userfollowed ON userfollowed.usernamefollowed = touite.username
+                    INNER JOIN user ON user.username = userfollowed.username
+                    WHERE user.username = ?
+                    ORDER BY dateTouite DESC";
+                    $statment = $connexion->prepare($query);
+                    $statment->bindParam(1, $username);
+                    $statment->bindParam(2, $username);
+                    $statment->execute();
+                    while($donnees = $statment->fetch()){
+                        $touite=new Touite($donnees["idTouite"], $donnees["text"], $donnees["username"]);
+                        $touiteRenderer=new TouiteRenderer($touite);
+                        $affichage.=$touiteRenderer->render(1);
+                    }
+                }
+                else {
+                    $affichage.="Vous n'êtes pas connecté, vous ne pouvez pas afficher votre mur";
+                }
+                break;
+            
+                default:   
                 $affichage.="Erreur de redirection";     
         }
         return $affichage;
