@@ -70,6 +70,7 @@ class ActionAfficherTouite extends Action {
                 $tag = new Tag($data["title"], $data["descriptionTag"]);
                 $tagRender = new TagRenderer($tag);
                 $affichage.=$tagRender->render(2);
+                $affichage.="<br>";
                 
                 //on affiche les touites du tag
                 $statment=$connexion->prepare("SELECT * FROM touite
@@ -138,6 +139,11 @@ class ActionAfficherTouite extends Action {
                         $touiteRenderer = new TouiteRenderer($touite);
                         $affichage.=$touiteRenderer->render(1);
                     }
+                    $affichage.="<br><br>";
+                    $affichage.='<form id="form1" method="GET" action="main.php?action=display-touite&param=tag">'.
+                                '<input type="text" name="title">'.
+                                '<button type="submit">Rechercher un Tag</button>'.
+                                '</form>';
                 }
                 else {
                     $affichage.="Vous n'êtes pas connecté, vous ne pouvez pas afficher votre mur";
