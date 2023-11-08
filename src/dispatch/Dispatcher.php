@@ -11,7 +11,7 @@ use iutnc\touiteur\action\ActionAfficherTag;
 use iutnc\touiteur\action\ActionFollow;
 use iutnc\touiteur\action\ActionFollowTag;
 use iutnc\touiteur\action\ActionPublierTouite;
-use iutnc\touiteur\action\ActionNote;
+use iutnc\touiteur\action\ActionSupprimerTouite;
 
 class Dispatcher{
     private string $action="";
@@ -57,6 +57,11 @@ class Dispatcher{
 
             case "note":
                 $action = new ActionNote();
+                $affichage = $action->execute();
+                break;
+
+            case "supprimer-touite":
+                $action = new ActionSupprimerTouite();
                 $affichage = $action->execute();
                 break;
 

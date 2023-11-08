@@ -8,7 +8,6 @@ use \iutnc\touiteur\touite\Tag;
 use \iutnc\touiteur\render\TagRenderer;
 use \iutnc\touiteur\user\User;
 use \iutnc\touiteur\render\UserRenderer;
-
 use \iutnc\touiteur\db\ConnectionFactory;
 
 class ActionAfficherTouite extends Action {
