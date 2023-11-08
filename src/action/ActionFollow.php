@@ -13,7 +13,7 @@ class ActionFollow extends Action {
         if(isset($_SESSION['user'])){
             $user = unserialize($_SESSION["user"]);
             //personne qui suit
-            $username = $user->__get("username");
+            $username = $user->username;
             //personne à suivre
             $usernameFollow = $_GET["username"];
             //si verifie que la personne à suivre est la même que l'utilisateur on affiche une erreur
