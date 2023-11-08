@@ -19,13 +19,13 @@ class ActionFollowTag extends Action{
 
             //avant de commencer la vérif, nous récupèrons l'id du tag
             $connexion = ConnectionFactory::makeConnection();
-            $query="SELECT idTag FROM tag ". 
+            $query="SELECT * FROM tag ". 
                     "WHERE tag.title = ?";
             $statement = $connexion->prepare($query);
             $statement->bindParam(1,$tagNameFollowed);
             $statement->execute();
             $donnees = $statement->fetch();
-            $idTag=$donnees["idTag"];
+            $idTag = $donnees["idTag"];
 
             //maintenant je vérifie que l'utilisateur courant ne follow pas déjà le tag
             $query = "SELECT * FROM tagfollowed WHERE tagfollowed.username = ?";
@@ -36,7 +36,7 @@ class ActionFollowTag extends Action{
             $followed = false;
             
             while($donnees = $statement->fetch()){
-                if($donnees["username"] == $username && $donnees["idTag"] == $idTag){
+                if($donnees["idTag"] == $idTag){
                     //cas où l'utilisateur courant follow déjà l'auteur
                     $followed = true;
                 }
@@ -46,7 +46,7 @@ class ActionFollowTag extends Action{
                 $query="INSERT INTO tagfollowed values(?,?)";
                 $statement = $connexion->prepare($query);
                 $statement->bindParam(1,$username);
-                $statement->bindParam(2,$tagNameFollowed);
+                $statement->bindParam(2,$idTag);
                 $statement->execute();
                 $aff.="C'est bon, vous suivez : ".$tagNameFollowed;
             } else{

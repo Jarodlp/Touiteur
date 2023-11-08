@@ -19,21 +19,23 @@ class TagRenderer implements Renderer{
         }
         else if ($selector == self::LONG) {
             return $this->renderLong();
+        } else{
+            return "erreur";
         }
     }
 
     //affichage simple
-    public function renderCompact() : string {
+    private function renderCompact() : string {
         return $this->tag->title."<br>";
     }
 
     //afichage long
-    public function renderLong() : string {
+    private function renderLong() : string {
         $aff="";
         $aff.="{$this->tag->title}";
         $aff.="Description : ".$this->tag->description."<br>";
         //possibilité de suivre ce tag
-        $aff.="<a href='main.php?action=followTag&tagName={$tag->title}'>Suivre ce tag</a><br>";
+        $aff.="<a href='main.php?action=followTag&tagName={$this->tag->title}'>Suivre ce tag</a><br>";
         return $aff;
     }
 }
