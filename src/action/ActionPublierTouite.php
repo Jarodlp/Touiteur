@@ -10,10 +10,14 @@ class ActionPublierTouite extends Action {
     {
         $aff = "";
         if ($this->http_method == "GET") {
-            $aff.='<form id="add-user" method="POST" action="?action=publier-touite">
-                <input type="" name="touite" placeholder="<votre touite>">
+            if (isset($_SESSION['user'])) {
+                $aff .= '<form id="add-user" method="POST" action="?action=publier-touite">
+                <input type="text" name="touite" placeholder="<votre touite>">
                 <button type="submit">Publier</button>
                 </form>';
+            } else {
+                $aff = "Veuillez vous connectez afin de publier un tweet";
+            }
         }
         else if ($this->http_method == "POST") {
             $texte = $_POST["touite"];
@@ -30,12 +34,16 @@ class ActionPublierTouite extends Action {
                 if ($char === "#"){
                     $bool = true;
                 }
-                if ($char === " "){
+                if ($char === " " && $bool){
                     $bool = false;
                     $tags[] = $tag;
+                    $tag = "";
                 }
             }
 
+            if ($bool){
+                $tags[] = $tag;
+            }
 
             $user = unserialize($_SESSION["user"]);
             $touite = $user->publieTouite($texte,$tags);

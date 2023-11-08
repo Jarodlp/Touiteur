@@ -44,6 +44,7 @@ class User{
         $statement = $connexion->prepare('select idTouite from touite where username = ? and text = ?');
         $statement->bindParam(1, $auteur);
         $statement->bindParam(2, $texte);
+        $statement->execute();
         $result = $statement->fetch();
         $idTouite = $result[0];
 
@@ -60,13 +61,18 @@ class User{
                 $statement->bindParam(1, $tag);
                 $statement->execute();
             }
+            // On récupère l'id du tag
+            $statement = $connexion->prepare('select idTag from tag where title = ?');
+            $statement->bindParam(1, $tag);
+            $statement->execute();
+            $result = $statement->fetch();
+            $idTag = $result[0];
             // Et ensuite on insère la liaison entre le touite et son/ses tags dans la table touiteTag
             $statement = $connexion->prepare('insert into touiteTag values (?,?)');
             $statement->bindParam(1, $idTouite);
-            $statement->bindParam(2, $tag);
+            $statement->bindParam(2, $idTag);
             $statement->execute();
         }
-        $tw = new Touite($idTouite,$texte,$auteur,$tags);
-        return $tw;
+        return new Touite($idTouite,$texte,$auteur,$tags);
     }
 }
