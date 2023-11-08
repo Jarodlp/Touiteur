@@ -55,6 +55,11 @@ class ActionAfficherTouite extends Action {
                     $tags[] = $donnee["title"];
                 }
 
+                //on actualise la note dans le cas où l'utilisateur aurait like ou dislike
+                if(isset($_GET['note'])){
+                    $affichage.=Touite::note($_GET['note'],$idTouite);
+                }
+
                 //on récupère le score du touite
                 $query = "SELECT SUM(note) FROM touitenote WHERE idTouite = ?";
                 $statment = $connexion->prepare($query);
@@ -68,6 +73,7 @@ class ActionAfficherTouite extends Action {
 
                 $touite = new Touite($idTouite, $texte, $username, $tags, $note);
                 $touiteRender = new TouiteRenderer($touite);
+
                 $affichage.=$touiteRender->render(2);
                 break;
 

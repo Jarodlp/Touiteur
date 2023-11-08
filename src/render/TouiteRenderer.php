@@ -43,8 +43,16 @@ class TouiteRenderer implements Renderer{
         foreach ($this->touite->tags as $key => $value) {
             $aff.="<a href='main.php?action=display-touite&param=tag&title=".$value."'>Tag : ".$value."</a><br>";
         }
-        $aff.="<a href='main.php?action=note&note=like&idTouite={$this->touite->id}'>Like le touite</a><br>";
-        $aff.="<a href='main.php?action=note&note=dislike&idTouite={$this->touite->id}'>Dislike le touite</a><br>";
+        $aff.="<form id='form1' method='GET' action='main.php'>".
+                "<button type='submit' name='note' value='like'>Like</button>".
+                "<button type='submit' name='note' value='dislike'>Dislike</button>".
+                "<input type='hidden' name='action' value='display-touite'>".
+                "<input type='hidden' name='param' value='one'>".
+                "<input type='hidden' name='id' value={$this->touite->id}>".
+                "</form>";
         return $aff;
     }
 }
+
+//$aff.="<a href='main.php?action=note&note=like&idTouite={$this->touite->id}'>Like le touite</a><br>";
+//$aff.="<a href='main.php?action=note&note=dislike&idTouite={$this->touite->id}'>Dislike le touite</a><br>";
