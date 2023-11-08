@@ -11,6 +11,7 @@ use iutnc\touiteur\action\ActionAfficherTag;
 use iutnc\touiteur\action\ActionFollow;
 use iutnc\touiteur\action\ActionFollowTag;
 use iutnc\touiteur\action\ActionPublierTouite;
+use iutnc\touiteur\action\ActionNote;
 
 class Dispatcher{
     private string $action="";
@@ -51,6 +52,11 @@ class Dispatcher{
 
             case "followTag":
                 $action = new ActionFollowTag();
+                $affichage = $action->execute();
+                break;
+
+            case "note":
+                $action = new ActionNote();
                 $affichage = $action->execute();
                 break;
 
