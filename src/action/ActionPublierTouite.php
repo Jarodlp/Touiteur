@@ -11,8 +11,8 @@ class ActionPublierTouite extends Action {
         $aff = "";
         if ($this->http_method == "GET") {
             $aff.='<form id="add-user" method="POST" action="?action=publier-touite">
-                <input type="text" name="touite" placeholder="<votre touite>">
-                <button type="submit">Connexion</button>
+                <input type="" name="touite" placeholder="<votre touite>">
+                <button type="submit">Publier</button>
                 </form>';
         }
         else if ($this->http_method == "POST") {
