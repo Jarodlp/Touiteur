@@ -56,8 +56,9 @@ class User{
             $result = $statement->fetch();
             // S'il existe pas, on le crée
             if ($result[0] == 0){
-                $statement = $connexion->prepare('insert into tag(title) values (?)');
+                $statement = $connexion->prepare('insert into tag(title, descriptionTag) values (?, ?)');
                 $statement->bindParam(1, $tag);
+                $statement->bindParam(2, $tag);
                 $statement->execute();
             }
             // On récupère l'id du tag
