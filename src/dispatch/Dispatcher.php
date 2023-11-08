@@ -10,6 +10,7 @@ use iutnc\touiteur\action\ActionAfficherUsers;
 use iutnc\touiteur\action\ActionAfficherTag;
 use iutnc\touiteur\action\ActionFollow;
 use iutnc\touiteur\action\ActionFollowTag;
+use iutnc\touiteur\action\ActionPublierTouite;
 
 class Dispatcher{
     private string $action="";
@@ -77,7 +78,8 @@ class Dispatcher{
                         <li><a href="main.php?action=add-user">Inscription</a></li>
                         <li><a href="main.php?action=connexion">Connexion</a></li>
                         <li><a href="main.php?action=display-touite&param=none">Afficher tous les touites</a></li>
-                         <li><a href="main.php?action=publier-touite">Publier un touite</a></li>
+                        <li><a href="main.php?action=display-touite&param=perso">Afficher mon mur</a></li>
+                        <li><a href="main.php?action=publier-touite">Publier un touite</a></li>
                     </ul>
                 </nav>
             </body>
