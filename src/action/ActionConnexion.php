@@ -19,7 +19,7 @@ class ActionConnexion extends Action
                 </form>';
         } 
         else if ($this->http_method == "POST") {
-            $username = filter_var($_POST["username"], FILTER_VALIDATE_SPECIAL_CHARS);
+            $username = filter_var($_POST["username"], FILTER_SANITIZE_SPECIAL_CHARS);
             $password = filter_var($_POST["password"], FILTER_SANITIZE_SPECIAL_CHARS);
             try {
                 Auth::authenticate($username, $password);
