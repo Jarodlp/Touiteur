@@ -22,8 +22,8 @@ class ActionAddUser extends Action {
         else if ($this->http_method == "POST") {
             $username = filter_var($_POST["username"], FILTER_SANITIZE_SPECIAL_CHARS);
             $password = filter_var($_POST["password"], FILTER_SANITIZE_SPECIAL_CHARS);
-            $prenom = filter_var($_POST["prenom"], FILTER_SANITIZE_STRING);
-            $nom = filter_var($_POST["nom"], FILTER_SANITIZE_STRING);
+            $prenom = filter_var($_POST["prenom"], FILTER_SANITIZE_SPECIAL_CHARS);
+            $nom = filter_var($_POST["nom"], FILTER_SANITIZE_SPECIAL_CHARS);
             $email = $_POST["email"];
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $aff.="Email invalide !<br>";

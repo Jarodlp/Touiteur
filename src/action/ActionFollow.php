@@ -32,7 +32,7 @@ class ActionFollow extends Action {
                         $followed = true;
                     }
                 }
-                if($followed == false){
+                if(!$followed){
                     //cas où l'utilisateur courant ne follow pas déjà l'auteur
                     $query="INSERT INTO userfollowed values(?, ?)";
                     $statement = $connexion->prepare($query);

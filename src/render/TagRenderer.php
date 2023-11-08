@@ -33,7 +33,7 @@ class TagRenderer implements Renderer{
         $aff.="{$this->tag->title}";
         $aff.="Description : ".$this->tag->description."<br>";
         //possibilité de suivre ce tag
-        $aff.="<a href='main.php?action=followTag&tagName={$tag->title}'>Suivre ce tag</a><br>";
+        $aff.="<a href='main.php?action=followTag&tagName={$this->tag->title}'>Suivre ce tag</a><br>";
         return $aff;
     }
 }
