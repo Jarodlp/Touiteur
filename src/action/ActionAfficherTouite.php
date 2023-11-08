@@ -54,7 +54,19 @@ class ActionAfficherTouite extends Action {
                 while ($donnee = $statment->fetch()) {
                     $tags[] = $donnee["title"];
                 }
-                $touite = new Touite($idTouite, $texte, $username, $tags);
+
+                //on récupère le score du touite
+                $query = "SELECT SUM(note) FROM touitenote WHERE idTouite = ?";
+                $statment = $connexion->prepare($query);
+                $statment->bindParam(1, $idTouite);
+                $statment->execute();
+                $result = $statment->fetch();
+                $note = $result[0];
+                if($note == null) {
+                    $note = 0;
+                }
+
+                $touite = new Touite($idTouite, $texte, $username, $tags, $note);
                 $touiteRender = new TouiteRenderer($touite);
                 $affichage.=$touiteRender->render(2);
                 break;

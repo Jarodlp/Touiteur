@@ -11,18 +11,25 @@ class Touite {
     protected array $tags;
     protected int $note;
 
-    public function __construct(int $id, string $texte, string $username, array $tags=[]){
+    public function __construct(int $id, string $texte, string $username, array $tags=[], int $note = 0){
         $this->id = $id;
         $this->texte= $texte;
         $this->username = $username;
         $this->tags = $tags;
-        //le touite n'a pas de note au début
-        $this->note = 0;
+        $this->note = $note;
     }
 
     public function __get( string $attr) : mixed {
         if (property_exists($this, $attr)){
             return $this->$attr;
+        } else{
+            throw new \iutnc\touiteur\exception\InvalidNameException("$attr : invalid property");
+        }
+    }
+
+    public function __set(string $attr, int $val) : void {
+        if (property_exists($this, $attr)){
+            $this->$attr = $val;
         } else{
             throw new \iutnc\touiteur\exception\InvalidNameException("$attr : invalid property");
         }
