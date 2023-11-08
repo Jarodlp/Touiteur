@@ -49,9 +49,19 @@ class Touite {
             if ($notePresente) {
                 //la note déjà présente en BD
                 $previousNote = $result[1];
-                //on teste si la note actuellement effectuée est la même déjà présente dans la BD
+                //on teste si la note actuellement effectuée est la même déjà présente dans la BD, si oui on l'enlève
                 if ($note == $previousNote) {
-                    $aff.="Vous avez déjà noté ce touite";
+                    $query = "DELETE FROM touitenote WHERE idTouite = ? AND username = ?";
+                    $statement = $connexion->prepare($query);
+                    $statement->bindParam(1, $idTouite);
+                    $statement->bindParam(2, $username);
+                    $statement->execute();
+                    if ($note == 1) {
+                        $aff.="Vous avez enlevé votre like de ce touite<br>";
+                    }
+                    else {
+                        $aff.="Vous avez enlevé votre dislike de ce touite<br>";
+                    }
                 }
                 else {
                     $query = "UPDATE touitenote SET note = ? WHERE idTouite = ? AND username = ?";
@@ -61,10 +71,10 @@ class Touite {
                     $statement->bindParam(3, $username);
                     $statement->execute();
                     if ($note == 1) {
-                        $aff.="Vous avez like ce touite";
+                        $aff.="Vous avez like ce touite<br>";
                     }
                     else {
-                        $aff.="Vous avez dislike ce touite";
+                        $aff.="Vous avez dislike ce touite<br>";
                     }
                 }
             }
@@ -77,15 +87,15 @@ class Touite {
                 $statement->bindParam(3, $note);
                 $statement->execute();
                 if ($note == 1) {
-                    $aff.="Vous avez like ce touite";
+                    $aff.="Vous avez like ce touite<br>";
                 }
                 else {
-                    $aff.="Vous avez dislike ce touite";
+                    $aff.="Vous avez dislike ce touite<br>";
                 }
             }
         } 
         else{
-            $aff.="Vous n'êtes pas connecté, vous ne pouvez pas like le touite";
+            $aff.="Vous n'êtes pas connecté, vous ne pouvez pas like le touite<br>";
         }
         return $aff;
     }
