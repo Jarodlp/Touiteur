@@ -11,14 +11,14 @@ class ActionConnexion extends Action
     public function execute(): string
     {
         $aff = "";
-        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+        if ($this->http_method == "GET") {
             $aff .= '<form id="connexion" method="POST" action="?action=connexion">
                 <input type="text" name="username" placeholder="<username>" required>
                 <input type="password" name="password" placeholder="<password>" required>
                 <button type="submit">Connexion</button>
                 </form>';
         } 
-        else if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        else if ($this->http_method == "POST") {
             $username = $_POST["username"];
             $password = $_POST["password"];
 

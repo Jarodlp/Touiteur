@@ -8,7 +8,7 @@ use iutnc\touiteur\db\ConnectionFactory;
 class ActionAddUser extends Action {
     public function execute () : string {
         $aff = "";
-        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+        if ($this->http_method == "GET") {
             $aff.='<form id="add-user" method="POST" action="?action=add-user">
                 <input type="text" name="username" placeholder="<username>">
                 <input type="password" name="password" placeholder="<password>">
@@ -19,7 +19,7 @@ class ActionAddUser extends Action {
                 </form>';
             $aff.="Veuillez utiliser un mot de passe de minimum 10 caractères, avec au moins un caractère spécial, une minuscule, une majuscule et un entier";
         }
-        else if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        else if ($this->http_method == "POST") {
             $username = $_POST["username"];
             $password = $_POST["password"];
             $prenom = $_POST["prenom"];

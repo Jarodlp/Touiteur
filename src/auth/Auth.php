@@ -72,12 +72,13 @@ class Auth {
     //charge l'utilisateur dans la session
     public static function loadProfile(string $username): void {
         $connexion = ConnectionFactory::makeConnection();
-        $statement = $connexion->prepare('select * FROM user WHERE username = ?');
+        $query = "SELECT * FROM user WHERE username = ?";
+        $statement = $connexion->prepare($query);
         $statement->bindParam(1, $username);
         $statement->execute();
         $result = $statement->fetch();
-        $_SESSION['user'] = new User($result['username'],$result['password'],$result['email']
-            ,$result['firstName'],$result['lastName']);
+        $_SESSION['user'] = serialize(new User($result['username'],$result['password'],$result['email']
+        ,$result['firstName'],$result['lastName']));
     }
 
 

@@ -8,6 +8,7 @@ use iutnc\touiteur\action\ActionDefault;
 use iutnc\touiteur\action\ActionAfficherTouite;
 use iutnc\touiteur\action\ActionAfficherUsers;
 use iutnc\touiteur\action\ActionAfficherTag;
+use iutnc\touiteur\action\ActionFollow;
 
 class Dispatcher{
     private string $action="";
@@ -38,6 +39,11 @@ class Dispatcher{
 
             case "publier-touite":
                 $action = new ActionPublierTouite();
+                $affichage = $action->execute();
+                break;
+
+            case "follow":
+                $action = new ActionFollow();
                 $affichage = $action->execute();
                 break;
 

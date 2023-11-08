@@ -45,39 +45,6 @@ class ActionAfficherTouite extends Action {
                 $texte = $data["text"];
                 $username = $data["username"];
 
-                //Avant de continuer la création du touite, je m'occupe du cas où l'utilisateur courant vient de follow l'auteur (j'avais besoin du username de l'auteur)
-                //je vérifie si l'utilisateur courant vient d'appuyer sur le bouton follow
-                if(isset($_POST["follow"])){
-                    //maintenant je vérifie que l'utilisateur est bien connecté, sinon il est renvoyé à un formulaire de connexion
-                    if(isset($_SESSION['username'])){
-                        //je vérifie que l'utilisateur courant ne follow pas déjà l'auteur du tweet
-                        $query2="SELECT * FROM userfollowed ". 
-                                "WHERE userfollowed.username = ?";
-                        $statement2=$connexion->prepare($query2);
-                        $usernameFollowing=$_SESSION['username']; //j'enregistre le username de l'utilisateur courant
-                        $statement2->bindParam(1,$usernameFollowing);
-                        $statement2->execute();
-                        $followed=false;
-                        while($donnees=$statement2->fetch()){
-                            if($donnees["usernameFollowed"]===$username){ //on compare la colonne des personnes suivies avec l'auteur du touite
-                                //cas où l'utilisateur courant follow déjà l'auteur
-                                $erreur="Vous suivez déjà cette personne !";
-                                $followed=true;
-                                break;
-                            }
-                            if($followed==false){
-                                //cas où l'utilisateur courant ne follow pas déjà l'auteur
-                                $query2="INSERT INTO userfollowed values({$usernameFollowing},{$username})";
-                                $statement2=$connexion->prepare($query2);
-                                $statement2->execute();
-                            }
-                        }
-                    } else{
-                        $action = new ActionConnexion();
-                        $affichage = $action->execute();
-                        return $affichage;
-                    }
-                }
                 $tags = [];
                 //récupère les tags du texte du touite
                 $query3 = "SELECT title FROM tag 
