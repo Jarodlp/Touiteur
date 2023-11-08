@@ -2,6 +2,8 @@
 
 namespace iutnc\touiteur\action;
 
+use iutnc\touiteur\render\TouiteRenderer;
+
 class ActionPublierTouite extends Action {
 
     public function execute(): string
@@ -16,13 +18,34 @@ class ActionPublierTouite extends Action {
         else if ($this->http_method == "POST") {
             $texte = $_POST["touite"];
             // on divise le texte pour séparer les tags du contenu (on suppose que les tags sont situés à la fin d'un touite)
-            $str = explode(" #",$texte,10);
+            $str = str_split($texte);
             // on supprime le texte pour garder que les tags
-            unset($str[0]);
+            $tags = [];
+            $bool = false;
+            $tag = "";
+            foreach ($str as $char){
+                if ($bool){
+                    $tag .= $char;
+                }
+                if ($char === "#"){
+                    $bool = true;
+                }
+                if ($char === " "){
+                    $bool = false;
+                    $tags[] = $tag;
+                }
+            }
 
-            $user = $_SESSION['user'];
-            $user->publieTouite($texte,$str);
 
+            $user = unserialize($_SESSION["user"]);
+            $touite = $user->publieTouite($texte,$tags);
+
+
+            $renderer = new TouiteRenderer($touite);
+
+            $aff = "Votre tweet a bien été publié <br>";
+
+            $aff .= $renderer->render(2);
 
         }
         return $aff;

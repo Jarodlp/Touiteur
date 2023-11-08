@@ -18,18 +18,20 @@ class TouiteRenderer implements Renderer{
         }
         else if ($selector == self::LONG) {
             return $this->renderLong();
+        } else {
+            return "";
         }
     }
 
     //affichage simple 
-    public function renderCompact() : string {
+    private function renderCompact() : string {
         $aff="";
         $aff.="<a href='main.php?action=display-touite&param=one&id=".$this->touite->id."'>".$this->touite->texte."</a><br>";
         return $aff;
     }
 
     //affichage complet avec toutes les infos
-    public function renderLong() : string {
+    private function renderLong() : string {
         $aff = "";
         $aff.=$this->touite->texte."<br>";
         $aff.="<a href='main.php?action=display-touite&param=user&username=".$this->touite->username."'>Auteur : ".$this->touite->username."</a><br>";
