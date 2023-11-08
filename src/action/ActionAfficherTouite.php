@@ -76,7 +76,8 @@ class ActionAfficherTouite extends Action {
                 INNER JOIN touiteTag ON touiteTag.idTouite = touite.idTouite
                 INNER JOIN tag ON tag.idTag = touiteTag.idTag 
                 WHERE tag.title = ?");
-                $statment->bindParam(1, $tag->title);
+                $tagTitle = $tag->title;
+                $statment->bindParam(1, $tagTitle);
                 $statment->execute();
                 while($donnees = $statment->fetch()){
                     $touite = new Touite($donnees["idTouite"], $donnees["text"], $donnees["username"]);
