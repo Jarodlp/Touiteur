@@ -69,10 +69,10 @@ class Dispatcher{
                 $action = new ActionDefault();
                 $affichage = $action->execute();                  
         }
-        $this->renderPage($affichage);
+        $this->renderPage($affichage, self::menu());
     }
 
-    private function renderPage(string $affichage) : void {
+    private function renderPage(string $affichage, string $menu) : void {
         $content = <<<EOT
         <!DOCTYPE html>
         <html lang="fr">
@@ -83,19 +83,28 @@ class Dispatcher{
             <body>
                 <h1>TOUITEUR</h1>
                 {$affichage}
-                <nav>
-                    <ul>
-                        <li><a href="main.php">Accueil</a></li>
-                        <li><a href="main.php?action=add-user">Inscription</a></li>
-                        <li><a href="main.php?action=connexion">Connexion</a></li>
-                        <li><a href="main.php?action=display-touite&param=none">Afficher tous les touites</a></li>
-                        <li><a href="main.php?action=display-touite&param=perso">Afficher mon mur</a></li>
-                        <li><a href="main.php?action=publier-touite">Publier un touite</a></li>
-                    </ul>
-                </nav>
+                {$menu}
             </body>
         </html>
         EOT;
         echo $content;
+    }
+
+    private function menu() : string {
+        $aff="";
+        $aff.='<nav>
+                <ul>
+                <li><a href="main.php">Accueil</a></li><br>
+                <li><a href="main.php?action=add-user">Inscription</a></li><br>
+                <li><a href="main.php?action=connexion">Connexion</a></li><br>
+                <li><a href="main.php?action=display-touite&param=none">Afficher tous les touites</a></li><br>';
+        if (isset($_SESSION["user"])) {
+            $aff.='<li><a href="main.php?action=display-touite&param=perso">Afficher mon mur</a></li><br>
+                    <li><a href="main.php?action=publier-touite">Publier un touite</a></li><br>
+                    <li><a href="main.php?action=display-touite&param=user">Afficher mon profil</a></li><br>
+                    </ul>
+                    </nav>';
+        }                                
+        return $aff;
     }
 }

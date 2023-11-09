@@ -26,7 +26,7 @@ class TouiteRenderer implements Renderer{
     //affichage simple 
     private function renderCompact() : string {
         $aff="";
-        $aff.="<a href='main.php?action=display-touite&param=one&id=".$this->touite->id."'>".$this->touite->texte."</a><br>";
+        $aff.="<a href='main.php?action=display-touite&param=one&id=".$this->touite->id."'>".$this->touite->texte."</a><br><br>";
         return $aff;
     }
 

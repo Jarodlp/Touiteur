@@ -23,12 +23,22 @@ class UserRenderer implements Renderer{
 
     //affichage simple 
     public function renderCompact() : string {
-        return "{$this->user->username}<br>";
+        return "Username de l'utilisateur : {$this->user->username}<br>";
     }
 
     //affichage complet avec toutes les infos
     public function renderLong() : string {
-        return "{$this->user->firstName} {$this->user->lastName}<br>";
+        $aff="";
+        $aff.="Prénom : {$this->user->firstName}<br>Nom : {$this->user->lastName}<br><br>";
+        //on affiche le score moyen de ses touites et les personnes qui le suivent
+        if (isset($_SESSION["user"])) {
+            $user = unserialize($_SESSION["user"]);
+            //si la page de l'user afficher et le même que l'utilisateur connecté
+            if($user->username == $this->user->username) {
+                $aff.=$user->getScoreTouites();
+            }
+        }
+        return $aff;
     }
 
     public function __get( string $attr) : mixed {

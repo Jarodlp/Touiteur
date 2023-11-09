@@ -20,6 +20,7 @@ class ActionAfficherTouite extends Action {
                 $connexion = ConnectionFactory::makeConnection();
                 $query = "SELECT * FROM touite ORDER BY dateTouite DESC";
                 $result = $connexion->query($query);
+                $affichage.="Touites :<br><br>";
                 while ($data = $result->fetch()) {
                     $touite = new Touite($data["idTouite"], $data["text"], $data["username"]);
                     $touiteRender = new TouiteRenderer($touite);
@@ -78,6 +79,7 @@ class ActionAfficherTouite extends Action {
 
             //on affiche les touites d'un tag
             case "tag":
+                //on récupère le tag grâce à son titre passer en paramètre
                 $connexion = ConnectionFactory::makeConnection();
                 $query = "SELECT * FROM tag WHERE tag.title = ?";
                 $statment = $connexion->prepare($query);
@@ -97,6 +99,7 @@ class ActionAfficherTouite extends Action {
                 $tagTitle = $tag->title;
                 $statment->bindParam(1, $tagTitle);
                 $statment->execute();
+                $affichage.="Touites du tag :<br><br>";
                 while($donnees = $statment->fetch()){
                     $touite = new Touite($donnees["idTouite"], $donnees["text"], $donnees["username"]);
                     $touiteRenderer = new TouiteRenderer($touite);
@@ -106,12 +109,22 @@ class ActionAfficherTouite extends Action {
             
             //on affiche les touites d'un utilisateur
             case "user":
+                //on récupère l'utilisateur dans la BD grâce au paramètre username dans le GET
+                //si il y a l'attribut username dans GET c'est que l'utilisateur veut afficher un utilisateur 
+                if (isset($_GET["username"])) {
+                    $username = $_GET["username"];
+                }
+                //sinon  il veut s'afficher lui même en ayant cliqué sur le lien afficher profil
+                else if (isset($_SESSION["user"])){
+                    $user = unserialize($_SESSION["user"]);
+                    $username = $user->username;
+                }
+                //sinon ça veut dire qu'il n'est pas connecté
                 $connexion = ConnectionFactory::makeConnection();
                 $query = "SELECT * FROM user WHERE user.username=:u_username";
                 $statment = $connexion->prepare($query);
-                $statment->bindParam(':u_username', $_GET["username"], \PDO::PARAM_STR);
+                $statment->bindParam(':u_username', $username, \PDO::PARAM_STR);
                 $statment->execute();
-                //on a besoin que d'une seule ligne car on traîte un seul utilisateur
                 $donnees = $statment->fetch();
                 $user = new User($donnees['username'],$donnees['password'],$donnees['email'],$donnees['firstName'],$donnees['lastName']);
                 $userRenderer = new UserRenderer($user);
@@ -122,6 +135,7 @@ class ActionAfficherTouite extends Action {
                 $username = $user->username;
                 $statment->bindParam(1,$username);
                 $statment->execute();
+                $affichage.="Touites :<br><br>";
                 while($donnees = $statment->fetch()){
                     $touite = new Touite($donnees["idTouite"], $donnees["text"], $donnees["username"]);
                     $touiteRenderer = new TouiteRenderer($touite);
@@ -151,6 +165,7 @@ class ActionAfficherTouite extends Action {
                     $statment->bindParam(1, $username);
                     $statment->bindParam(2, $username);
                     $statment->execute();
+                    $affichage.="Touites :<br><br>";
                     while($donnees = $statment->fetch()){
                         $touite = new Touite($donnees["idTouite"], $donnees["text"], $donnees["username"]);
                         $touiteRenderer = new TouiteRenderer($touite);

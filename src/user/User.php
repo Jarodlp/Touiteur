@@ -75,4 +75,14 @@ class User{
         }
         return new Touite($idTouite,$texte,$auteur,$tags);
     }
+
+    public function getScoreTouites() : int {
+        $connexion = ConnectionFactory::makeConnection();
+        $query = "SELECT * FROM touite WHERE touite.username = ?";
+        $statment = $connexion->prepare($query);
+        $statment->bindParam(1, $username);
+        $statment->execute();
+        $donnees = $statment->fetch();
+        return $score;
+    }
 }

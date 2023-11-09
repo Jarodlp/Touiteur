@@ -32,8 +32,8 @@ class TagRenderer implements Renderer{
     //afichage long
     private function renderLong() : string {
         $aff="";
-        $aff.="{$this->tag->title}";
-        $aff.=" : ".$this->tag->description."<br>";
+        $aff.="Titre du tag : {$this->tag->title}<br>";
+        $aff.="Description : ".$this->tag->description."<br>";
         //possibilité de suivre ce tag
         $aff.="<a href='main.php?action=followTag&tagName={$this->tag->title}'>Suivre ce tag</a><br>";
         return $aff;
