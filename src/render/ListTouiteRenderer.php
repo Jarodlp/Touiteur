@@ -64,7 +64,6 @@ class ListTouiteRenderer implements Renderer{
                             "<input type='hidden' name='param' value={$param}>".
                             "</form><br>";
             }
-            
         } else{
             //cas normal où il y 10 touites ou moins
             foreach($this->list->touites as $touite){
