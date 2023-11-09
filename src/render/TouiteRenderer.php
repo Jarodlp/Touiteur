@@ -34,8 +34,6 @@ class TouiteRenderer implements Renderer{
     private function renderLong() : string {
         $cheminImg = $this->touite->cheminImage;
         $aff ="<p class='touite'>{$this->touite->texte}</p><br>";
-
-        $aff ="Titre : ".$this->touite->texte."<br>";
         $aff.="Note : ".$this->touite->note."<br>";
         // On affiche l'image du tweet s'il en a une
         if (!is_null($this->touite->cheminImage)){
