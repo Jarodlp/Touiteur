@@ -66,6 +66,7 @@ class ListTouiteRenderer implements Renderer{
             }
             
         } else{
+            //cas normal où il y 10 touites ou moins
             foreach($this->list->touites as $touite){
                 $affichage.=(new \iutnc\touiteur\render\TouiteRenderer($touite))->render($selector);
             }
