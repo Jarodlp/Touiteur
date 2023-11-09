@@ -4,6 +4,7 @@ namespace iutnc\touiteur\user;
 
 use iutnc\touiteur\db\ConnectionFactory;
 use \iutnc\touiteur\touite\Touite;
+use \iutnc\touiteur\render\TouiteRenderer;
 
 class User{
     protected String $username;
@@ -89,5 +90,51 @@ class User{
         $donnees = $statment->fetch();
         $score = $donnees[0];
         return $score;
+    }
+
+    public static function getMur(bool $erreur=false): String{
+        $affichage="";
+        //on teste si l'utilisateur est connecté
+        if (isset($_SESSION["user"])) {
+            $user = unserialize($_SESSION["user"]);
+            $username = $user->username;
+            $connexion = ConnectionFactory::makeConnection();
+            $query = "SELECT touite.idTouite, touite.text, touite.username, touite.dateTouite FROM touite
+            INNER JOIN touitetag ON touitetag.idTouite = touite.idTouite
+            INNER JOIN tagfollowed ON tagfollowed.idTag = touitetag.idTag
+            INNER JOIN user ON user.username = tagfollowed.username
+            WHERE user.username = ?
+              UNION
+            SELECT touite.idTouite, touite.text, touite.username, touite.dateTouite FROM touite
+            INNER JOIN userfollowed ON userfollowed.usernamefollowed = touite.username
+            INNER JOIN user ON user.username = userfollowed.username
+            WHERE user.username = ?
+            ORDER BY dateTouite DESC";
+            $statment = $connexion->prepare($query);
+            $statment->bindParam(1, $username);
+            $statment->bindParam(2, $username);
+            $statment->execute();
+            $affichage.="Touites :<br><br>";
+            while($donnees = $statment->fetch()){
+                $touite = new Touite($donnees["idTouite"], $donnees["text"], $donnees["username"]);
+                $touiteRenderer = new TouiteRenderer($touite);
+                $affichage.=$touiteRenderer->render(1);
+            }
+            $affichage.="<br><br>";
+            if($erreur){
+                $affichage.="Tag inexistant, veuillez entrer  un nom valide<br>Pensez à enlever le # si vous en avez mis un.";
+            }
+            $action="action=display-touite";
+            $affichage.="<form id='form1' method='GET' action='main.php'>".
+                        "<input type='text' name='title'>".
+                        "<input type='hidden' name='action' value='display-touite'>".
+                        "<input type='hidden' name='param' value='tag'>".
+                        "<button type='submit'>Rechercher un Tag</button>".
+                        "</form>";
+        }
+        else {
+            $affichage.="Vous n'êtes pas connecté, vous ne pouvez pas afficher votre mur";
+        }
+        return $affichage;
     }
 }

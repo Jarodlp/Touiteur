@@ -79,31 +79,38 @@ class ActionAfficherTouite extends Action {
 
             //on affiche les touites d'un tag
             case "tag":
-                //on récupère le tag grâce à son titre passer en paramètre
-                $connexion = ConnectionFactory::makeConnection();
-                $query = "SELECT * FROM tag WHERE tag.title = ?";
-                $statment = $connexion->prepare($query);
-                $statment->bindParam(1, $_GET["title"]);
-                $statment->execute();
-                $data = $statment->fetch();
-                $tag = new Tag($data["title"], $data["descriptionTag"]);
-                $tagRender = new TagRenderer($tag);
-                $affichage.=$tagRender->render(2);
-                $affichage.="<br>";
-                
-                //on affiche les touites du tag
-                $statment=$connexion->prepare("SELECT * FROM touite
-                INNER JOIN touiteTag ON touiteTag.idTouite = touite.idTouite
-                INNER JOIN tag ON tag.idTag = touiteTag.idTag 
-                WHERE tag.title = ?");
-                $tagTitle = $tag->title;
-                $statment->bindParam(1, $tagTitle);
-                $statment->execute();
-                $affichage.="Touites du tag :<br><br>";
-                while($donnees = $statment->fetch()){
-                    $touite = new Touite($donnees["idTouite"], $donnees["text"], $donnees["username"]);
-                    $touiteRenderer = new TouiteRenderer($touite);
-                    $affichage.=$touiteRenderer->render(1);
+                //on teste si le tag entré existe ou pas 
+                if(!Tag::tagExist($_GET["title"])){
+                    //si le tag n'existe pas
+                    $erreur=true;
+                    $affichage=User::getMur($erreur);
+                } else {
+                    //on récupère le tag grâce à son titre passer en paramètre
+                    $connexion = ConnectionFactory::makeConnection();
+                    $query = "SELECT * FROM tag WHERE tag.title = ?";
+                    $statment = $connexion->prepare($query);
+                    $statment->bindParam(1, $_GET["title"]);
+                    $statment->execute();
+                    $data = $statment->fetch();
+                    $tag = new Tag($data["title"], $data["descriptionTag"]);
+                    $tagRender = new TagRenderer($tag);
+                    $affichage.=$tagRender->render(2);
+                    $affichage.="<br>";
+            
+                    //on affiche les touites du tag
+                    $statment=$connexion->prepare("SELECT * FROM touite
+                    INNER JOIN touiteTag ON touiteTag.idTouite = touite.idTouite
+                    INNER JOIN tag ON tag.idTag = touiteTag.idTag 
+                    WHERE tag.title = ?");
+                    $tagTitle = $tag->title;
+                    $statment->bindParam(1, $tagTitle);
+                    $statment->execute();
+                    $affichage.="Touites du tag :<br><br>";
+                    while($donnees = $statment->fetch()){
+                        $touite = new Touite($donnees["idTouite"], $donnees["text"], $donnees["username"]);
+                        $touiteRenderer = new TouiteRenderer($touite);
+                        $affichage.=$touiteRenderer->render(1);
+                    }
                 }
                 break;
             
@@ -145,44 +152,7 @@ class ActionAfficherTouite extends Action {
             
             //on affiche le mur de l'utilisateur avec les touites qui l'intéressent
             case "perso":
-                //on teste si l'utilisateur est connecté
-                if (isset($_SESSION["user"])) {
-                    $user = unserialize($_SESSION["user"]);
-                    $username = $user->username;
-                    $connexion = ConnectionFactory::makeConnection();
-                    $query = "SELECT touite.idTouite, touite.text, touite.username, touite.dateTouite FROM touite
-                    INNER JOIN touitetag ON touitetag.idTouite = touite.idTouite
-                    INNER JOIN tagfollowed ON tagfollowed.idTag = touitetag.idTag
-                    INNER JOIN user ON user.username = tagfollowed.username
-                    WHERE user.username = ?
-  		            UNION
-                    SELECT touite.idTouite, touite.text, touite.username, touite.dateTouite FROM touite
-                    INNER JOIN userfollowed ON userfollowed.usernamefollowed = touite.username
-                    INNER JOIN user ON user.username = userfollowed.username
-                    WHERE user.username = ?
-                    ORDER BY dateTouite DESC";
-                    $statment = $connexion->prepare($query);
-                    $statment->bindParam(1, $username);
-                    $statment->bindParam(2, $username);
-                    $statment->execute();
-                    $affichage.="Touites :<br><br>";
-                    while($donnees = $statment->fetch()){
-                        $touite = new Touite($donnees["idTouite"], $donnees["text"], $donnees["username"]);
-                        $touiteRenderer = new TouiteRenderer($touite);
-                        $affichage.=$touiteRenderer->render(1);
-                    }
-                    $affichage.="<br><br>";
-                    $action="action=display-touite";
-                    $affichage.="<form id='form1' method='GET' action='main.php'>".
-                                "<input type='text' name='title'>".
-                                "<input type='hidden' name='action' value='display-touite'>".
-                                "<input type='hidden' name='param' value='tag'>".
-                                "<button type='submit'>Rechercher un Tag</button>".
-                                "</form>";
-                }
-                else {
-                    $affichage.="Vous n'êtes pas connecté, vous ne pouvez pas afficher votre mur";
-                }
+                $affichage.=User::getMur();
                 break;
             
                 default:   
