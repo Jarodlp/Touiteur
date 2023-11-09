@@ -6,32 +6,36 @@ use iutnc\touiteur\db\ConnectionFactory;
 use \iutnc\touiteur\touite\Touite;
 use \iutnc\touiteur\render\TouiteRenderer;
 
-class User{
-    protected String $username;
-    protected String $password;
-    protected String $email;
-    protected String $firstName;
-    protected String $lastName;
+class User
+{
+    protected string $username;
+    protected string $password;
+    protected string $email;
+    protected string $firstName;
+    protected string $lastName;
 
-    public function __construct($username,$password,$email,$firstName,$lastName){
-        $this->username=$username;
-        $this->password=$password;
-        $this->email=$email;
-        $this->firstName=$firstName;
-        $this->lastName=$lastName;
+    public function __construct($username, $password, $email, $firstName, $lastName)
+    {
+        $this->username = $username;
+        $this->password = $password;
+        $this->email = $email;
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
     }
 
     //getter magique
-    public function __get( string $attr) : mixed {
-        if (property_exists($this, $attr)){
+    public function __get(string $attr): mixed
+    {
+        if (property_exists($this, $attr)) {
             return $this->$attr;
-        } else{
+        } else {
             throw new \iutnc\touiteur\exception\InvalidNameException("$attr : invalid property");
         }
     }
 
     //l'utilisateur publie un touite
-    public function publieTouite(string $texte, array $tags=[]) : Touite {
+    public function publieTouite(string $texte, string $cheminImage, array $tags = []): Touite
+    {
         //On regarde les tags présents dans le texte et on les ajoute à la BD si ils n'existent pas
         $auteur = $this->username;
         $connexion = ConnectionFactory::makeConnection();
@@ -40,7 +44,7 @@ class User{
         $statement->bindParam(1, $auteur);
         $statement->bindParam(2, $texte);
         $statement->execute();
-        
+
         $statement = $connexion->prepare('select max(idTouite) from touite where username = ? and text = ?');
         $statement->bindParam(1, $auteur);
         $statement->bindParam(2, $texte);
@@ -49,14 +53,14 @@ class User{
         $idTouite = $result[0];
 
         // boucles pour les tags
-        foreach ($tags as $tag){
+        foreach ($tags as $tag) {
             // on recherche si le tag existe déjà dans la BD
             $statement = $connexion->prepare('SELECT COUNT(*) FROM tag WHERE title = ?');
             $statement->bindParam(1, $tag);
             $statement->execute();
             $result = $statement->fetch();
             // S'il existe pas, on le crée
-            if ($result[0] == 0){
+            if ($result[0] == 0) {
                 $statement = $connexion->prepare('insert into tag(title, descriptionTag) values (?, ?)');
                 $statement->bindParam(1, $tag);
                 $statement->bindParam(2, $tag);
@@ -74,10 +78,39 @@ class User{
             $statement->bindParam(2, $idTag);
             $statement->execute();
         }
-        return new Touite($idTouite,$texte,$auteur,$tags);
+
+        //Instruction pour l'image
+        if ($cheminImage !== "pasDimage") {
+            // On insère l'image dans la bd si elle existe pas
+            $statement = $connexion->prepare('select count(*) from Image where fileName = ?');
+            $statement->bindParam(1, $cheminImage);
+            $statement->execute();
+            $result = $statement->fetch();
+            if ($result[0] == 0) {
+                $statement = $connexion->prepare('insert into image(fileName) values (?)');
+                $statement->bindParam(1, $cheminImage);
+                $statement->execute();
+            }
+
+            // Et on récupère son ID
+            $statement = $connexion->prepare('select idImage from Image where fileName = ?');
+            $statement->bindParam(1, $cheminImage);
+            $statement->execute();
+            $result = $statement->fetch();
+            $idImage = $result[0];
+
+            // Et on insère la liaison entre le touite et son image dans la bd
+            $statement = $connexion->prepare('insert into touiteImage values (?,?)');
+            $statement->bindParam(1, $idTouite);
+            $statement->bindParam(2, $idImage);
+            $statement->execute();
+        }
+
+        return new Touite($idTouite, $texte, $auteur, $tags);
     }
 
-    public function getScoreTouites() : mixed {
+    public function getScoreTouites(): mixed
+    {
         $user = unserialize($_SESSION["user"]);
         $username = $user->username;
         $connexion = ConnectionFactory::makeConnection();
@@ -92,8 +125,9 @@ class User{
         return $score;
     }
 
-    public static function getMur(bool $erreur=false): String{
-        $affichage="";
+    public static function getMur(bool $erreur = false): string
+    {
+        $affichage = "";
         //on teste si l'utilisateur est connecté
         if (isset($_SESSION["user"])) {
             $user = unserialize($_SESSION["user"]);
@@ -114,26 +148,25 @@ class User{
             $statment->bindParam(1, $username);
             $statment->bindParam(2, $username);
             $statment->execute();
-            $affichage.="Touites :<br><br>";
-            while($donnees = $statment->fetch()){
+            $affichage .= "Touites :<br><br>";
+            while ($donnees = $statment->fetch()) {
                 $touite = new Touite($donnees["idTouite"], $donnees["text"], $donnees["username"]);
                 $touiteRenderer = new TouiteRenderer($touite);
-                $affichage.=$touiteRenderer->render(1);
+                $affichage .= $touiteRenderer->render(1);
             }
-            $affichage.="<br><br>";
-            if($erreur){
-                $affichage.="Tag inexistant, veuillez entrer  un nom valide<br>Pensez à enlever le # si vous en avez mis un.";
+            $affichage .= "<br><br>";
+            if ($erreur) {
+                $affichage .= "Tag inexistant, veuillez entrer  un nom valide<br>Pensez à enlever le # si vous en avez mis un.";
             }
-            $action="action=display-touite";
-            $affichage.="<form id='form1' method='GET' action='main.php'>".
-                        "<input type='text' name='title'>".
-                        "<input type='hidden' name='action' value='display-touite'>".
-                        "<input type='hidden' name='param' value='tag'>".
-                        "<button type='submit'>Rechercher un Tag</button>".
-                        "</form>";
-        }
-        else {
-            $affichage.="Vous n'êtes pas connecté, vous ne pouvez pas afficher votre mur";
+            $action = "action=display-touite";
+            $affichage .= "<form id='form1' method='GET' action='main.php'>" .
+                "<input type='text' name='title'>" .
+                "<input type='hidden' name='action' value='display-touite'>" .
+                "<input type='hidden' name='param' value='tag'>" .
+                "<button type='submit'>Rechercher un Tag</button>" .
+                "</form>";
+        } else {
+            $affichage .= "Vous n'êtes pas connecté, vous ne pouvez pas afficher votre mur";
         }
         return $affichage;
     }
