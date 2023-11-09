@@ -44,6 +44,18 @@ class UserRenderer implements Renderer{
                 else {
                     $aff.="Score moyen de vos touites : ".$score."<br><br>";
                 }
+                //on affiche les followers abbonés à l'utilisateur
+                $followers = $user->getFollower();
+                $aff.="Utilisateurs qui vous suivent :<br><br>";
+                foreach ($followers as $key => $value) {
+                    $user = $value;
+                    $userRenderer = new UserRenderer($user);
+                    $aff.=$userRenderer->render(1);
+                }
+                //on affiche le nombre d'utilisateur abbonés à l'utilisateur
+                $aff.=$user->getNombreFollower()." utilisateurs sont abbonés à vous<br><br>";
+                //on affiche le nombre d'utilisateurs auquel on n'est abboné
+                $aff.="Vous êtes abboné à ".$user->getNombreFollow()." utilisateurs <br><br>";
             }
         }
         return $aff;
