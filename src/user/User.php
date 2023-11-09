@@ -76,13 +76,16 @@ class User{
         return new Touite($idTouite,$texte,$auteur,$tags);
     }
 
-    public function getScoreTouites() : int {
+    public function getScoreTouites() : mixed {
         $connexion = ConnectionFactory::makeConnection();
-        $query = "SELECT * FROM touite WHERE touite.username = ?";
+        $query = "SELECT AVG(touitenote.note) FROM touite
+        INNER JOIN touitenote ON touitenote.idTouite = touite.idTouite 
+        WHERE touite.username = ?";
         $statment = $connexion->prepare($query);
         $statment->bindParam(1, $username);
         $statment->execute();
         $donnees = $statment->fetch();
+        $score = $donnees[0];
         return $score;
     }
 }
