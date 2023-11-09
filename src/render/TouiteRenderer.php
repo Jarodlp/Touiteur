@@ -35,7 +35,7 @@ class TouiteRenderer implements Renderer{
 
         $aff ="Titre : ".$this->touite->texte."<br>";
         $aff.="Note : ".$this->touite->note."<br>";
-        // On affiche l'image du tweet qs'il en a une
+        // On affiche l'image du tweet s'il en a une
         if (!is_null($this->touite->cheminImage)){
             $aff .= '<img src="'.$this->touite->cheminImage.'"/>';
         }

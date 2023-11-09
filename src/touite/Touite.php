@@ -29,6 +29,8 @@ class Touite {
         $result = $statement->fetch();
         if ($result){
             $this->cheminImage = $result["fileName"];
+        } else {
+            $this->cheminImage = "";
         }
     }
 
@@ -105,7 +107,7 @@ class Touite {
                     $aff.="Vous avez dislike ce touite<br>";
                 }
             }
-        } 
+        }
         else{
             $aff.="Vous n'êtes pas connecté, vous ne pouvez pas like le touite<br>";
         }
