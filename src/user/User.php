@@ -34,8 +34,7 @@ class User
     }
 
     //l'utilisateur publie un touite
-    public function publieTouite(string $texte, string $cheminImage, array $tags = []): Touite
-    {
+    public function publieTouite(string $texte, string $cheminImage, array $tags = []): Touite {
         //On regarde les tags présents dans le texte et on les ajoute à la BD si ils n'existent pas
         $auteur = $this->username;
         $connexion = ConnectionFactory::makeConnection();
@@ -109,24 +108,58 @@ class User
         return new Touite($idTouite, $texte, $auteur, $tags, 0, $cheminImage);
     }
 
-    public function getScoreTouites(): mixed
-    {
-        $user = unserialize($_SESSION["user"]);
-        $username = $user->username;
+    public function getScoreTouites(): mixed {
         $connexion = ConnectionFactory::makeConnection();
         $query = "SELECT AVG(touitenote.note) FROM touite
         INNER JOIN touitenote ON touitenote.idTouite = touite.idTouite 
         WHERE touite.username = ?";
         $statment = $connexion->prepare($query);
-        $statment->bindParam(1, $username);
+        $statment->bindParam(1, $this->username);
         $statment->execute();
         $donnees = $statment->fetch();
         $score = $donnees[0];
         return $score;
     }
 
-    public static function getMur(bool $erreur = false): string
-    {
+    public function getFollower() : array {
+        $connexion = ConnectionFactory::makeConnection();
+        $query = "SELECT user.username, user.password, user.email, user.firstName, user.lastName 
+        FROM userfollowed 
+        INNER JOIN user ON user.username = userfollowed.username
+        WHERE userfollowed.usernamefollowed = ?";
+        $statment = $connexion->prepare($query);
+        $statment->bindParam(1, $this->username);
+        $statment->execute();
+        $users = [];
+        while ($user = $statment->fetch()) {
+            $users[] = new User($user["username"], $user["password"], $user["email"], $user["firstName"], $user["lastName"]);
+        }
+        return $users;
+    }
+    
+    public function getNombreFollower(): int {
+        $connexion = ConnectionFactory::makeConnection();
+        $query = "SELECT COUNT(*) FROM userfollowed WHERE userfollowed.usernamefollowed = ?";
+        $statment = $connexion->prepare($query);
+        $statment->bindParam(1, $this->username);
+        $statment->execute();
+        $donnee = $statment->fetch();
+        $nbUsers = $donnee[0];
+        return $nbUsers;
+    }
+    
+    public function getNombreFollow() : int {
+        $connexion = ConnectionFactory::makeConnection();
+        $query = "SELECT COUNT(*) FROM userfollowed WHERE userfollowed.username = ?";
+        $statment = $connexion->prepare($query);
+        $statment->bindParam(1, $this->username);
+        $statment->execute();
+        $donnee = $statment->fetch();
+        $nbUsers = $donnee[0];
+        return $nbUsers;
+    }
+
+    public static function getMur(bool $erreur = false): string {
         $affichage = "";
         //on teste si l'utilisateur est connecté
         if (isset($_SESSION["user"])) {
