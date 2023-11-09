@@ -77,6 +77,8 @@ class User{
     }
 
     public function getScoreTouites() : mixed {
+        $user = unserialize($_SESSION["user"]);
+        $username = $user->username;
         $connexion = ConnectionFactory::makeConnection();
         $query = "SELECT AVG(touitenote.note) FROM touite
         INNER JOIN touitenote ON touitenote.idTouite = touite.idTouite 
