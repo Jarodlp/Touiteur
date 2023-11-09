@@ -39,10 +39,10 @@ class UserRenderer implements Renderer{
                 $score = $user->getScoreTouites();
                 //si le score est null, c'est qu'il n'y a pas de note sur les touites ou pas de touite
                 if ($score == NULL) {
-                    $aff.="Vous n'avez pas de touites ou bien vos touites n'ont pas de notes<br>";
+                    $aff.="Vous n'avez pas de touites ou bien vos touites n'ont pas de notes<br><br>";
                 }
                 else {
-                    $aff.="Score moyen de vos touites : ".$score."<br>";
+                    $aff.="Score moyen de vos touites : ".$score."<br><br>";
                 }
             }
         }
