@@ -79,12 +79,16 @@ class ActionAfficherTouite extends Action {
 
             //on affiche les touites d'un tag
             case "tag":
-                //on teste si le tag entré existe ou pas 
-                if(!Tag::tagExist($_GET["title"])){
-                    //si le tag n'existe pas
+                //on teste le cas où l'utilisateur cliquerait sur le bouton 'Rechercher un tag' sans avoir fourni de titre.
+                //On lui réaffiche donc simplement son mur
+                if(strlen($_GET["title"])==0){
+                    $affichage.=User::getMur();
+                } else if(!Tag::tagExist($_GET["title"])){
+                     //maintenant on regare si le user a entré un tag inexistant
+                     //auquel cas on réaffiche son mur avec un message d'erreur en plus
                     $erreur=true;
-                    $affichage=User::getMur($erreur);
-                } else {
+                    $affichage.=User::getMur($erreur);
+                } else{
                     //on récupère le tag grâce à son titre passer en paramètre
                     $connexion = ConnectionFactory::makeConnection();
                     $query = "SELECT * FROM tag WHERE tag.title = ?";
