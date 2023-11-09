@@ -182,11 +182,13 @@ class User
             $statment->bindParam(2, $username);
             $statment->execute();
             $affichage .= "Touites :<br><br>";
-            while ($donnees = $statment->fetch()) {
+            $listTouite=new \iutnc\touiteur\list\ListTouite();
+            while($donnees = $statment->fetch()){
                 $touite = new Touite($donnees["idTouite"], $donnees["text"], $donnees["username"]);
-                $touiteRenderer = new TouiteRenderer($touite);
-                $affichage .= $touiteRenderer->render(1);
+                $listTouite->addTouite($touite);
             }
+            $listTouiteRenderer=new \iutnc\touiteur\render\ListTouiteRenderer($listTouite);
+            $affichage.=$listTouiteRenderer->render(1);
             $affichage .= "<br><br>";
             if ($erreur) {
                 $affichage .= "Tag inexistant, veuillez entrer  un nom valide<br>Pensez à enlever le # si vous en avez mis un.";

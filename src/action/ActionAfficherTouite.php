@@ -112,11 +112,13 @@ class ActionAfficherTouite extends Action {
                     $statment->bindParam(1, $tagTitle);
                     $statment->execute();
                     $affichage.="Touites du tag :<br><br>";
+                    $listTouite=new \iutnc\touiteur\list\ListTouite();
                     while($donnees = $statment->fetch()){
                         $touite = new Touite($donnees["idTouite"], $donnees["text"], $donnees["username"]);
-                        $touiteRenderer = new TouiteRenderer($touite);
-                        $affichage.=$touiteRenderer->render(1);
+                        $listTouite->addTouite($touite);
                     }
+                    $listTouiteRenderer=new \iutnc\touiteur\render\ListTouiteRenderer($listTouite);
+                    $affichage.=$listTouiteRenderer->render(1);
                 }
                 break;
             
@@ -149,11 +151,13 @@ class ActionAfficherTouite extends Action {
                 $statment->bindParam(1,$username);
                 $statment->execute();
                 $affichage.="Touites :<br><br>";
+                $listTouite=new \iutnc\touiteur\list\ListTouite();
                 while($donnees = $statment->fetch()){
                     $touite = new Touite($donnees["idTouite"], $donnees["text"], $donnees["username"]);
-                    $touiteRenderer = new TouiteRenderer($touite);
-                    $affichage.=$touiteRenderer->render(1);
+                    $listTouite->addTouite($touite);
                 }
+                $listTouiteRenderer=new \iutnc\touiteur\render\ListTouiteRenderer($listTouite);
+                $affichage.=$listTouiteRenderer->render(1);
                 break;
             
             //on affiche le mur de l'utilisateur avec les touites qui l'intéressent
