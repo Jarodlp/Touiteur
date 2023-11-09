@@ -9,7 +9,11 @@ class ListTouite{
 
     public function __construct(array $list=[]){
         $this->touites=$list;
-        $this->length=sizeof($this->touites);
+        if($this->touites==[]){
+            $this->length=0;
+        } else{
+            $this->length=sizeof($this->touites);
+        }
     }
 
     public function addTouite(\iutnc\touiteur\touite\Touite $touite){

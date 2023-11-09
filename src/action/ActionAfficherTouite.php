@@ -21,11 +21,13 @@ class ActionAfficherTouite extends Action {
                 $query = "SELECT * FROM touite ORDER BY dateTouite DESC";
                 $result = $connexion->query($query);
                 $affichage.="Touites :<br><br>";
+                $listTouite=new \iutnc\touiteur\list\ListTouite();
                 while ($data = $result->fetch()) {
                     $touite = new Touite($data["idTouite"], $data["text"], $data["username"]);
-                    $touiteRender = new TouiteRenderer($touite);
-                    $affichage.=$touiteRender->render(1);
+                    $listTouite->addTouite($touite);
                 }
+                $listTouiteRenderer=new \iutnc\touiteur\render\ListTouiteRenderer($listTouite);
+                $affichage.=$listTouiteRenderer->render(1);
                 break;
 
             //on affiche un seul touite
