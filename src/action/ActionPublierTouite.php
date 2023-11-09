@@ -11,7 +11,7 @@ class ActionPublierTouite extends Action {
         $aff = "";
         if ($this->http_method == "GET") {
             if (isset($_SESSION['user'])) {
-                $aff .= '<form id="add-user" method="POST" action="?action=publier-touite">
+                $aff .= '<form id="add-user" enctype="multipart/form-data" method="POST" action="?action=publier-touite">
                 <input type="text" name="touite" placeholder="<votre touite>">
                 <p><input type="file" name="inputfile" accept=".png,.jpeg,.jpg,.gif"></p>
                 <button type="submit">Publier</button>
@@ -24,7 +24,6 @@ class ActionPublierTouite extends Action {
             $texte = $_POST["touite"];
 
             if (isset($_FILES['inputfile'])) {
-                echo ("test good");
                 $filename = uniqid();
                 $chemin = 'images/' . $filename . '.png';
                 $dest = __DIR__ . '/../../' . $chemin;

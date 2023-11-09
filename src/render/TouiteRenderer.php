@@ -32,12 +32,12 @@ class TouiteRenderer implements Renderer{
 
     //affichage complet avec toutes les infos
     private function renderLong() : string {
-        $cheminImg = $this->touite->cheminImage;
+
         $aff ="Titre : ".$this->touite->texte."<br>";
         $aff.="Note : ".$this->touite->note."<br>";
         // On affiche l'image du tweet qs'il en a une
-        if (isset($cheminImg)){
-            $aff .= '<img src="'.$cheminImg.'"/>';
+        if (!is_null($this->touite->cheminImage)){
+            $aff .= '<img src="'.$this->touite->cheminImage.'"/>';
         }
         //on affiche l'utilisateur en lien pour afficher les touites de l'utilisateur
         $aff.="<a href='main.php?action=display-touite&param=user&username=".$this->touite->username."'>Auteur : ".$this->touite->username."</a><br>";
