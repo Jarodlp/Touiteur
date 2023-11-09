@@ -26,14 +26,14 @@ class TouiteRenderer implements Renderer{
     //affichage simple 
     private function renderCompact() : string {
         $aff="";
-        $aff.="<a href='main.php?action=display-touite&param=one&id=".$this->touite->id."'>".$this->touite->texte."</a><br><br>";
+        $aff.="<a href='main.php?action=display-touite&param=one&id=".$this->touite->id."'><p class='touite'>{$this->touite->texte}</p></a><br>";
         return $aff;
     }
 
     //affichage complet avec toutes les infos
     private function renderLong() : string {
         $cheminImg = $this->touite->cheminImage;
-        $aff ="Titre : ".$this->touite->texte."<br>";
+        $aff ="<p class='touite'>{$this->touite->texte}</p><br>";
         $aff.="Note : ".$this->touite->note."<br>";
         // On affiche l'image du tweet qs'il en a une
         if (isset($cheminImg)){
@@ -56,8 +56,8 @@ class TouiteRenderer implements Renderer{
             //sinon on affiche la fonction noter le touite
             else {
                 $aff.="<form id='form1' method='GET' action='main.php'>".
-                    "<button type='submit' name='note' value='like'>Like</button>".
-                    "<button type='submit' name='note' value='dislike'>Dislike</button>".
+                    "<button type='submit' name='note' value='like' id='like'>Like</button>".
+                    "<button type='submit' name='note' value='dislike' id='dislike'>Dislike</button>".
                     "<input type='hidden' name='action' value='display-touite'>".
                     "<input type='hidden' name='param' value='one'>".
                     "<input type='hidden' name='id' value={$this->touite->id}>".
