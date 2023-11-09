@@ -8,7 +8,10 @@ class ActionSupprimerTouite extends Action {
     public function execute() : string {
         $aff="";
         $connexion = ConnectionFactory::makeConnection();
-        $query = "DELETE FROM touite WHERE idTouite = ?";
+        $query = "DELETE FROM touiteimage WHERE idTouite = ?;
+        DELETE FROM touitenote WHERE idTouite = ?;
+        DELETE FROM touitetag WHERE idTouite = ?;
+        DELETE FROM touite WHERE idTouite = ?;";
         $statment = $connexion->prepare($query);
         $statment->bindParam(1, $_GET["id"]);
         $statment->execute();
