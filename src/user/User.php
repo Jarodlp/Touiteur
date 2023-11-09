@@ -105,7 +105,7 @@ class User
             $statement->execute();
         }
 
-        return new Touite($idTouite, $texte, $auteur, $tags);
+        return new Touite($idTouite, $texte, $auteur, $tags, 0, $cheminImage);
     }
 
     public function getScoreTouites(): mixed {
