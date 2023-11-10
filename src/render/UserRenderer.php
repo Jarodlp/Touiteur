@@ -12,7 +12,7 @@ class UserRenderer implements Renderer{
     }
 
     //affichage du user
-    public function render(int $selector): string {
+    public function render(int $selector) : string {
         if ($selector == self::COMPACT) {
             return $this->renderCompact();
         }
@@ -29,7 +29,7 @@ class UserRenderer implements Renderer{
     //affichage complet avec toutes les infos
     public function renderLong() : string {
         $aff="";
-        $aff.="Prénom : {$this->user->firstName}<br>Nom : {$this->user->lastName}<br><br>";
+        $aff.="{$this->user->firstName} {$this->user->lastName}<br><br>";
         if (isset($_SESSION["user"])) {
             //on affiche le score moyen de ses touites et les personnes qui le suivent
             $user = unserialize($_SESSION["user"]);
@@ -45,16 +45,39 @@ class UserRenderer implements Renderer{
                 }
                 //on affiche les followers abbonés à l'utilisateur
                 $followers = $user->getFollower();
-                $aff.="Utilisateurs qui vous suivent :<br><br>";
-                foreach ($followers as $key => $value) {
-                    $user = $value;
+                if (count($followers) == 0) {
+                    $aff.="Personne n'est abonné à vous :(";
+                }
+                else if (count($followers) == 1) {
+                    $aff.="Vous avez 1 abonné :<br>";
+                    $user = $followers[0];
                     $userRenderer = new UserRenderer($user);
                     $aff.=$userRenderer->render(1);
                 }
-                //on affiche le nombre d'utilisateur abbonés à l'utilisateur
-                $aff.=$user->getNombreFollower()." utilisateurs sont abonnés à vous<br><br>";
-                //on affiche le nombre d'utilisateurs auquel on n'est abboné
-                $aff.="Vous êtes abonné à ".$user->getNombreFollow()." utilisateurs <br><br>";
+                else {
+                    $aff.="Vous avez ".count($followers)." abonnés :<br>";
+                    foreach ($followers as $key => $value) {
+                        $user = $value;
+                        $userRenderer = new UserRenderer($user);
+                        $aff.=$userRenderer->render(1);
+                    }
+                }
+                //on affiche les utilisateur que l'utilisateur follow
+                $follows = $user->getFollow();
+                if (count($follows) == 0) {
+                    $aff.="Vous n'êtes abonné à personne<br>";
+                }
+                else if (count($follows) == 1) {
+                    $aff.="Vous êtes abonné à 1 personne :<br>";
+                }
+                else {
+                    $aff.="Vous êtes abonné à ".count($follows)." personnes :<br>";
+                    foreach ($follows as $key => $value) {
+                        $user = $value;
+                        $userRenderer = new UserRenderer($user);
+                        $aff.=$userRenderer->render(1);
+                    }
+                }
             }
              //lien pour follow l'utilisateur si ce n'est pas nous
             else {

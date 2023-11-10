@@ -21,7 +21,7 @@ class Touite {
         $this->cheminImage = $cheminImage;
     }
 
-    public static function note(String $nomNote, int $id): String{
+    public static function note(String $nomNote, int $id) : string{
         $aff ="";
 
         //maintenant je vérifie que l'utilisateur est bien connecté, sinon il ne peut pas like

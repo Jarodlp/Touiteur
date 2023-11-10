@@ -8,8 +8,7 @@ use \iutnc\touiteur\render\TouiteRenderer;
 use \iutnc\touiteur\list\ListTouite;
 use \iutnc\touiteur\render\ListTouiteRenderer;
 
-class User
-{
+class User {
     protected string $username;
     protected string $password;
     protected string $email;
@@ -25,8 +24,7 @@ class User
     }
 
     //getter magique
-    public function __get(string $attr): mixed
-    {
+    public function __get(string $attr) : mixed {
         if (property_exists($this, $attr)) {
             return $this->$attr;
         } else {
@@ -34,7 +32,7 @@ class User
         }
     }
 
-    public function getScoreTouites(): mixed {
+    public function getScoreTouites() : mixed {
         $connexion = ConnectionFactory::makeConnection();
         $query = "SELECT AVG(touitenote.note) FROM touite
         INNER JOIN touitenote ON touitenote.idTouite = touite.idTouite 
@@ -63,29 +61,22 @@ class User
         return $users;
     }
     
-    public function getNombreFollower(): int {
+    public function getFollow() : array {
         $connexion = ConnectionFactory::makeConnection();
-        $query = "SELECT COUNT(*) FROM userfollowed WHERE userfollowed.usernamefollowed = ?";
+        $query = "SELECT user.username, user.password, user.email, user.firstName, user.lastName FROM userfollowed 
+        INNER JOIN user ON user.username = userfollowed.usernameFollowed
+        WHERE userfollowed.username = ?";
         $statment = $connexion->prepare($query);
         $statment->bindParam(1, $this->username);
         $statment->execute();
-        $donnee = $statment->fetch();
-        $nbUsers = $donnee[0];
-        return $nbUsers;
-    }
-    
-    public function getNombreFollow() : int {
-        $connexion = ConnectionFactory::makeConnection();
-        $query = "SELECT COUNT(*) FROM userfollowed WHERE userfollowed.username = ?";
-        $statment = $connexion->prepare($query);
-        $statment->bindParam(1, $this->username);
-        $statment->execute();
-        $donnee = $statment->fetch();
-        $nbUsers = $donnee[0];
-        return $nbUsers;
+        $users = [];
+        while ($user = $statment->fetch()) {
+            $users[] = new User($user["username"], $user["password"], $user["email"], $user["firstName"], $user["lastName"]);
+        }
+        return $users;
     }
 
-    public static function getMur(bool $erreur = false): string {
+    public static function getMur(bool $erreur = false) : string {
         $affichage = "";
         //on teste si l'utilisateur est connecté
         if (isset($_SESSION["user"])) {

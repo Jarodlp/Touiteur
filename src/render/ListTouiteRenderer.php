@@ -12,7 +12,7 @@ class ListTouiteRenderer implements Renderer{
         $this->list = $liste;
     }
 
-    public function render(int $selector = 1):String{
+    public function render(int $selector = 1) : string{
         $action = $_GET["action"];
         $affichage = "";
         //système de pagination au-delà de 10 touites.

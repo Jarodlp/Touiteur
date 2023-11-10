@@ -10,14 +10,14 @@ class Tag{
 
     public function __construct(String $title, String $description=""){
         $this->title=$title;
-        $this->description=$description;
+        $this->description = $description;
     }
 
-    public function addDescription($description){
-        $this->description=$description;
+    public function addDescription($description) : void {
+        $this->description = $description;
     }
 
-    public static function tagExist(String $title): bool{
+    public static function tagExist(String $title) : bool{
         $exist=false;
         $connexion = ConnectionFactory::makeConnection();
         $query="SELECT * FROM tag WHERE tag.title=?";

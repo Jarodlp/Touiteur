@@ -9,7 +9,7 @@ class TagRenderer implements Renderer{
     protected Tag $tag;
 
     public function __construct(Tag $tag){
-        $this->tag=$tag;
+        $this->tag = $tag;
     }
 
     //affichage du tag

@@ -6,7 +6,7 @@ class ConnectionFactory {
     static ?array $parametres = null;
     static ?\PDO $connexion=null;
 
-    public static function setConfig($file) {
+    public static function setConfig($file) : void {
         if (!isset(self::$parametres)) {
             self::$parametres = parse_ini_file($file);
         }

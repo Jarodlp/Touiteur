@@ -69,7 +69,7 @@ class Auth {
         else{return false;}
     }
 
-    public static function checkUserEstAdmin(string $username) : bool{
+    public static function checkUserEstAdmin(string $username) : bool { 
         $connexion = ConnectionFactory::makeConnection();
         $admin="admin";
         $query = "SELECT COUNT(*) FROM {$admin} WHERE username = ?";

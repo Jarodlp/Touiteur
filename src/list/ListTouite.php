@@ -9,7 +9,7 @@ class ListTouite{
     private int $length;
     private array $touites;
 
-    public function __construct(array $list=[]){
+    public function __construct(array $list=[]) {
         $this->touites=$list;
         if($this->touites==[]){
             $this->length=0;
@@ -18,16 +18,16 @@ class ListTouite{
         }
     }
 
-    public function addTouite(Touite $touite){
+    public function addTouite(Touite $touite) : void{
         array_push($this->touites,$touite);
         $this->length+=1;
     }
 
-    public function addList(array $tab){
-        for ($i=0;i<sizeof($this->touites);$i++){
-            for($j=0;j<sizeof($tab);$j++){
-                if($tab[$j]===$this->touites[$i]){
-                    array_splice($tab,$j,1);
+    public function addList(array $tab) : void {
+        for ($i = 0; i < sizeof($this->touites); $i++){
+            for($j = 0; j < sizeof($tab); $j++){
+                if($tab[$j] === $this->touites[$i]){
+                    array_splice($tab, $j, 1);
                 }
             }
         }

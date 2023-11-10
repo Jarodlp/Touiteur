@@ -29,7 +29,7 @@ class Dispatcher{
         }
     }
 
-    public function run(){
+    public function run() : void {
         switch ($this->action) {
             case "add-user":
                 $action = new ActionAddUser();
@@ -127,15 +127,16 @@ class Dispatcher{
         //si l'utilisateur n'est pas connecté on enlève certaines possibilités
         if (isset($_SESSION["user"])) {
             $user = unserialize($_SESSION["user"]);
-            //on teste si l'utilisateur est un admin
+            //si l'utilisateur est un admin, il peut accéder au pack office
             if (Auth::checkUserEstAdmin($user->username)){
                 $aff .= '<li><a href="mainBO.php?">Accéder au back office</a></li><br>';
             }
-                $aff .= '<li><a href="main.php?action=display-mur&param=perso&page=1">Afficher mon mur</a></li><br>
-                    <li><a href="main.php?action=publier-touite">Publier un touite</a></li><br>
-                    <li><a href="main.php?action=display-user&username=' . $user->username . '&page=1">Afficher mon profil</a></li><br>
-                    <li><a href="main.php?action=deconnection">Se déconnecter</a></li><br>';
-        } else {
+            $aff .= '<li><a href="main.php?action=display-mur&param=perso&page=1">Afficher mon mur</a></li><br>
+                <li><a href="main.php?action=publier-touite">Publier un touite</a></li><br>
+                <li><a href="main.php?action=display-user&username='.$user->username.'&page=1">Afficher mon profil</a></li><br>
+                <li><a href="main.php?action=deconnection">Se déconnecter</a></li><br>';
+        } 
+        else {
             $aff.='<li><a href="main.php?action=add-user">Inscription</a></li><br>
                     <li><a href="main.php?action=connexion">Connexion</a></li><br>';
         }    
