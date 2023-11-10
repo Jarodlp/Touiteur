@@ -1,10 +1,12 @@
 # Touiteur
-RONOT Martin
-TOUSSAINT Jarod
-LE NALINEC Tibère
+RONOT Martin -> MartinRNT
+
+TOUSSAINT Jarod -> Jarodlp
+
+LE NALINEC Tibère -> TibèreLN
 
 S3C
 
-SAé "Développer une appli web sécurisée"
+SAÉ "Développer une appli web sécurisée"
 
 Novembre 2023
