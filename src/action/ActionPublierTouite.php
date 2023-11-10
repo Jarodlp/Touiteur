@@ -49,7 +49,6 @@ class ActionPublierTouite extends Action {
                     $cheminImage = "";
                 }
 
-                $texte=filter_var($_POST["touite"],FILTER_SANITIZE_SPECIAL_CHARS);
                 // on divise le texte pour séparer les tags du contenu (on suppose que les tags sont situés à la fin d'un touite)
                 $str = str_split($texte);
                 // on supprime le texte pour garder que les tags
@@ -63,19 +62,19 @@ class ActionPublierTouite extends Action {
                     if ($char === "#"){
                         $tagPresent = true;
                     }
-                    if($tagPresent && ($char === "<" || $char === ">" || $char === "(" || $char === ")" || $char === "-" || $char === "_")){
-                        $tagPresent=false;
-                        $tag="";
-                    }
                     if ($char === " " && $tagPresent){
                         $tagPresent = false;
-                        $tags[] = $tag;
+                        if(!$special = preg_match("#[\W]#", $tag)){
+                            $tags[] = $tag;
+                        } 
                         $tag = "";
                     }
                 }
                 //si le tag est la toute fin du texte
                 if ($tagPresent){
-                    $tags[] = $tag;
+                    if(!$special = preg_match("#[\W]#", $tag)){
+                        $tags[] = $tag;
+                    } 
                 }
 
                 $user = unserialize($_SESSION["user"]);
@@ -153,7 +152,7 @@ class ActionPublierTouite extends Action {
                 
                 //on récupère les tags
                 
-
+                $texte=filter_var($texte,FILTER_SANITIZE_SPECIAL_CHARS);
                 $touite = new Touite($idTouite, $texte, $auteur, $tags, 0, $cheminImage);
                 $touiteRenderer = new TouiteRenderer($touite);
 
