@@ -61,10 +61,10 @@ class ActionPublierTouite extends Action {
                     if ($char === "#"){
                         $tagPresent = true;
                     }
-                    if($tagPresent && ($char === "<" || $char === ">" || $char === "(" || $char === ")" || $char === "-" || $char === "_")){
+                    /*if($tagPresent && ($char === "<" || $char === ">" || $char === "(" || $char === ")" || $char === "-" || $char === "_")){
                         $tagPresent=false;
                         $tag="";
-                    }
+                    }*/
                     if (($char === " " && $tagPresent)){
                         $tagPresent = false;
                         $tags[] = $tag;
@@ -119,7 +119,6 @@ class ActionPublierTouite extends Action {
                     $statement->execute();
                 }
 
-                if(sizeof($tags)>0){
                     foreach ($tags as $tag) {
                         // on recherche si le tag existe déjà dans la BD
                         $statement = $connexion->prepare('SELECT COUNT(*) FROM tag WHERE title = ?');
@@ -140,12 +139,16 @@ class ActionPublierTouite extends Action {
                         $result = $statement->fetch();
                         $idTag = $result[0];
                         // Et ensuite on insère la liaison entre le touite et son/ses tags dans la table touiteTag
-                        $statement = $connexion->prepare('INSERT INTO touiteTag VALUES (?,?)');
-                        $statement->bindParam(1, $idTouite);
-                        $statement->bindParam(2, $idTag);
-                        $statement->execute();
+                        try{
+                            $statement = $connexion->prepare('INSERT INTO touiteTag VALUES (?,?)');
+                            $statement->bindParam(1, $idTouite);
+                            $statement->bindParam(2, $idTag);
+                            $statement->execute();
+                        } catch(\PDOException $e){
+
+                        }
                     }
-                }
+                
                 //on récupère les tags
                 
 
