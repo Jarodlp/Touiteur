@@ -87,11 +87,6 @@ class Dispatcher{
                 $affichage = $action->execute();
                 break;
 
-            case "note":
-                $action = new ActionNote();
-                $affichage = $action->execute();
-                break;
-
             case "supprimer-touite":
                 $action = new ActionSupprimerTouite();
                 $affichage = $action->execute();

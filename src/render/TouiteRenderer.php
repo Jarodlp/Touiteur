@@ -37,10 +37,8 @@ class TouiteRenderer implements Renderer{
         $aff.="Note : ".$this->touite->note."<br>";
 
         //image du tweet s'il en a une
-        print(__DIR__.$this->touite->cheminImage);
         if (($this->touite->cheminImage) !== ""){
             $aff .= '<img src="'.$this->touite->cheminImage.'" alt="Erreur de chargement de image"/><br>';
-            print 'affiche image what ?';
         }
         //utilisateur du touite
         $aff.="<a href='main.php?action=display-user&username=".$this->touite->username."'>Auteur : ".$this->touite->username."</a><br>";

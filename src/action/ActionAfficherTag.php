@@ -3,7 +3,6 @@
 namespace iutnc\touiteur\action;
 
 use iutnc\touiteur\db\ConnectionFactory;
-use iutnc\touiteur\render\UserRenderer;
 use iutnc\touiteur\user\User;
 use iutnc\touiteur\list\ListTouite;
 use iutnc\touiteur\touite\Touite;
@@ -16,7 +15,7 @@ class ActionAfficherTag extends Action {
         $affichage="";
         //on teste le cas où l'utilisateur cliquerait sur le bouton 'Rechercher un tag' sans avoir fourni de titre.
         //On lui réaffiche donc simplement son mur
-        if(strlen($_GET["title"])==0){
+        if(strlen($_GET["title"]) == 0){
             $affichage.=User::getMur();
         } else if(!Tag::tagExist($_GET["title"])){
                 //maintenant on regarde si le user a entré un tag inexistant
