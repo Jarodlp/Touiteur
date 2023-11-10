@@ -11,8 +11,8 @@ use iutnc\touiteur\render\ListTouiteRenderer;
 
 class ActionAfficherMur extends Action {
     public function execute() : string {
-        $aff="";
+        $affichage="";
         $affichage.=User::getMur();
-        return $aff;
+        return $affichage;
     }
 }

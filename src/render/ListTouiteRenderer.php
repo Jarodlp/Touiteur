@@ -19,7 +19,7 @@ class ListTouiteRenderer implements Renderer{
         if($this->list->length>10){
             //$_GET["page"] n'est set que si nous ne sommes pas sur la première page, donc si le système de pagination est activé.
             //il faut donc récupérer les 10 touites (ou moins) concernés.
-            $page=$_GET["page"];
+            $page = $_GET["page"];
             if($page>1){
                 if($this->list->length <= ($page*10)){
                     //cas où nous sommes sur la dernière page

@@ -11,7 +11,7 @@ use iutnc\touiteur\render\ListTouiteRenderer;
 
 class ActionAfficherToutTouites extends Action {
     public function execute() : string {
-        $aff="";
+        $affichage="";
         //on récupère tous les touites de la BD
         $connexion = ConnectionFactory::makeConnection();
         $query = "SELECT * FROM touite ORDER BY dateTouite DESC";
@@ -23,6 +23,6 @@ class ActionAfficherToutTouites extends Action {
         }
         $listTouiteRenderer = new ListTouiteRenderer ($listTouite);
         $affichage.=$listTouiteRenderer->render(1);
-        return $aff;
+        return $affichage;
     }
 }

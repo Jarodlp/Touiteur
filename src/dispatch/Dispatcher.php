@@ -60,6 +60,11 @@ class Dispatcher{
                 $affichage = $action->execute();
                 break;
 
+            case "display-mur":
+                $action = new ActionAfficherMur();
+                $affichage = $action->execute();
+                break;
+
             case "publier-touite":
                 $action = new ActionPublierTouite();
                 $affichage = $action->execute();
@@ -120,7 +125,7 @@ class Dispatcher{
         //si l'utilisateur n'est pas connecté on enlève certaines possibilités
         if (isset($_SESSION["user"])) {
             $user = unserialize($_SESSION["user"]);
-            $aff.='<li><a href="main.php?action=display-touite&param=perso&page=1">Afficher mon mur</a></li><br>
+            $aff.='<li><a href="main.php?action=display-mur&param=perso&page=1">Afficher mon mur</a></li><br>
                     <li><a href="main.php?action=publier-touite">Publier un touite</a></li><br>
                     <li><a href="main.php?action=display-user&username='.$user->username.'&page=1">Afficher mon profil</a></li><br>';                    
         }

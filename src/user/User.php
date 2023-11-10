@@ -122,7 +122,7 @@ class User
             $action = "action=display-tag";
             $affichage .= "<form id='form1' method='GET' action='main.php'>".
                 "<input type='text' name='title'>" .
-                "<input type='hidden' name='action' value='display-touite'>".
+                "<input type='hidden' name='action' value='display-mur'>".
                 "<button type='submit'>Rechercher un Tag</button>" .
                 "</form>";
         } else {
