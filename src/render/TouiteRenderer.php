@@ -41,7 +41,7 @@ class TouiteRenderer implements Renderer{
             $aff .= '<img src="'.$this->touite->cheminImage.'" alt="Erreur de chargement de image"/><br>';
         }
         //utilisateur du touite
-        $aff.="<a href='main.php?action=display-user&username=".$this->touite->username."'>Auteur : ".$this->touite->username."</a><br>";
+        $aff.="<a href='main.php?action=display-user&username=".$this->touite->username."&page=1'>Auteur : ".$this->touite->username."</a><br>";
 
         //on affiche tout les tags en lien pour afficher les touites de ces tags
         foreach ($this->touite->tags as $key => $value) {

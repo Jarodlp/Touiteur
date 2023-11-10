@@ -23,7 +23,7 @@ class UserRenderer implements Renderer{
 
     //affichage simple 
     public function renderCompact() : string {
-        return "<a href='main.php?action=display-user&username={$this->user->username}'>{$this->user->username}</a><br>";
+        return "<a href='main.php?action=display-user&username={$this->user->username}&page=1'>{$this->user->username}</a><br>";
     }
 
     //affichage complet avec toutes les infos

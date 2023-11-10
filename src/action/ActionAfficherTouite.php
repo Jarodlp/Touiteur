@@ -59,8 +59,6 @@ class ActionAfficherTouite extends Action {
         $statement->bindParam(1, $idTouite);
         $statement->execute();
         $imagePresente = $statement->fetch();
-        var_dump($imagePresente);
-        print($imagePresente);
         if ($imagePresente !== false) {
             $cheminImage = $imagePresente[0];
         }

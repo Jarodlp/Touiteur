@@ -15,9 +15,9 @@ class ActionAfficherUser extends Action {
         //on récupère l'utilisateur dans la BD grâce au paramètre username dans le GET
         $username = $_GET["username"];
         $connexion = ConnectionFactory::makeConnection();
-        $query = "SELECT * FROM user WHERE user.username=:u_username";
+        $query = "SELECT * FROM user WHERE user.username = ?";
         $statment = $connexion->prepare($query);
-        $statment->bindParam(':u_username', $username, \PDO::PARAM_STR);
+        $statment->bindParam(1, $username);
         $statment->execute();
         $donnees = $statment->fetch();
         $user = new User($donnees['username'],$donnees['password'],$donnees['email'],$donnees['firstName'],$donnees['lastName']);

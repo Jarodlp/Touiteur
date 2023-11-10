@@ -17,21 +17,22 @@ class ListTouiteRenderer implements Renderer{
         $affichage = "";
         //système de pagination au-delà de 10 touites.
         if($this->list->length>10){
+            //on créer le formulaire
+            $affichage.="<form id='form1' method='GET' action='main.php'>";
             //$_GET["page"] n'est set que si nous ne sommes pas sur la première page, donc si le système de pagination est activé.
             //il faut donc récupérer les 10 touites (ou moins) concernés.
             $page = $_GET["page"];
             if($page>1){
                 if($this->list->length <= ($page*10)){
                     //cas où nous sommes sur la dernière page
-                    $previousPage=$_GET["page"]-1;
-                    $maxIndex=$this->list->length-1;
-                    for($i=$previousPage*10;$i<$maxIndex+1;$i++){
+                    $previousPage = $_GET["page"]-1;
+                    $maxIndex = $this->list->length-1;
+                    for($i = $previousPage*10; $i<$maxIndex+1; $i++){
                         $affichage.=(new TouiteRenderer($this->list->touites[$i]))->render(1);
                     }
-                    $affichage.="<form id='form1' method='GET' action='main.php'>".
-                            "<button type='submit' name='page' value={$previousPage} id='nextPage'>Previous page</button>". 
-                            "<input type='hidden' name='action' value='{$action}'>".
-                            "</form><br>";
+                    $affichage.="<button type='submit' name='page' value='{$previousPage}' id='nextPage'>Previous page</button> 
+                            <input type='hidden' name='action' value='{$action}'>";
+                            
                 } else{
                     //cas où il y a plus de 10 touites et nous ne sommes pas sur la première page
                     $nextPage = $_GET["page"]+1;
@@ -48,10 +49,9 @@ class ListTouiteRenderer implements Renderer{
                         $affichage.=(new TouiteRenderer($this->list->touites[$i]))->render(1);
                     }
                     $affichage.="<form id='form1' method='GET' action='main.php'>".
-                            "<button type='submit' name='page' value={$previousPage} id='previousPage'>Previous Page</button>". 
-                            "<button type='submit' name='page' value={$nextPage} id='nextPage'>Next Page</button>". 
-                            "<input type='hidden' name='action' value='{$action}'>".
-                            "</form><br>";
+                            "<button type='submit' name='page' value='{$previousPage}' id='previousPage'>Previous Page</button>". 
+                            "<button type='submit' name='page' value='{$nextPage}' id='nextPage'>Next Page</button>". 
+                            "<input type='hidden' name='action' value='{$action}'>";
                 }
             } else{
                 //cas où il y a plus de 10 touites mais nous sommes sur la première page (accueil)
@@ -59,10 +59,18 @@ class ListTouiteRenderer implements Renderer{
                 $affichage.=(new TouiteRenderer($this->list->touites[$i]))->render(1);
                 }
                 $affichage.="<form id='form1' method='GET' action='main.php'>".
-                            "<button type='submit' name='page' value=2 id='nextPage'>Next Page</button>". 
-                            "<input type='hidden' name='action' value='{$action}'>".
-                            "</form><br>";
+                            "<button type='submit' name='page' value='2' id='nextPage'>Next Page</button>". 
+                            "<input type='hidden' name='action' value='{$action}'>";
             }
+            //si on est sur les pages des tags ou des users, on ajoute les attribut title de tag ou username de user dans le formulaire
+            if (isset($_GET["username"])) {
+                $affichage.="<input type='hidden' name='username' value='{$_GET["username"]}'>";
+            }
+            if (isset($_GET["title"])) {
+                $affichage.="<input type='hidden' name='title' value='{$_GET["title"]}'>";
+            }
+            //on ferme le formulaire
+            $affichage.="</form><br>";
         } else{
             //cas normal où il y 10 touites ou moins
             foreach($this->list->touites as $touite){
