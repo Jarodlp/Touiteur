@@ -40,10 +40,10 @@ class ActionPublierTouite extends Action {
                 //on déplace l'image dans le répertoire si l'user en a mis une
                 if (($_FILES['inputfile']['tmp_name'] !== "")) {
                     $filename = uniqid();
-                    $chemin = 'images/'.$filename.'.png';
-                    $dest = __DIR__ . '/../../'.$chemin;
+                    $cheminImage = 'images/'.$filename.'.png';
+                    $dest = __DIR__ . '/../../'.$cheminImage;
                     move_uploaded_file($_FILES['inputfile']['tmp_name'], $dest);
-                    $cheminImage = '\\..\\..\\images\\'.$filename.'.png';
+                    //$cheminImage = '\\..\\..\\images\\'.$filename.'.png';
                 }
                 else {
                     $cheminImage = "";
