@@ -90,5 +90,8 @@ class Auth {
         $_SESSION['user'] = serialize(new User($result['username'], $result['password'], $result['email'], $result['firstName'],$result['lastName']));
     }
 
+    public static function unloadProfile() : void {
+        unset($_SESSION["user"]);
+    }
 
 }
