@@ -1,9 +1,9 @@
 # Touiteur
-RONOT Martin -> MartinRNT
+RONOT Martin -> martinronot
 
 TOUSSAINT Jarod -> Jarodlp
 
-LE NALINEC Tibère -> TibèreLN
+LE NALINEC Tibère -> TibereLN
 
 S3C
 
