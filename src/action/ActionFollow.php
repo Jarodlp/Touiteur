@@ -3,7 +3,6 @@
 namespace iutnc\touiteur\action;
 
 use \iutnc\touiteur\db\ConnectionFactory;
-use \iutnc\touiteur\user\User;
 
 class ActionFollow extends Action {
     public function execute() : string {
