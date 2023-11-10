@@ -71,7 +71,8 @@ class Auth {
 
     public static function checkUserEstAdmin(string $username) : bool{
         $connexion = ConnectionFactory::makeConnection();
-        $query = "SELECT count(*) FROM admin WHERE username = ?";
+        $admin="admin";
+        $query = "SELECT COUNT(*) FROM {$admin} WHERE username = ?";
         $statement = $connexion->prepare($query);
         $statement->bindParam(1, $username);
         $statement->execute();
