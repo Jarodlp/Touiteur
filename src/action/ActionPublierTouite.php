@@ -49,6 +49,7 @@ class ActionPublierTouite extends Action {
                     $cheminImage = "";
                 }
 
+                $texte=filter_var($_POST["touite"],FILTER_SANITIZE_SPECIAL_CHARS);
                 // on divise le texte pour séparer les tags du contenu (on suppose que les tags sont situés à la fin d'un touite)
                 $str = str_split($texte);
                 // on supprime le texte pour garder que les tags
@@ -62,11 +63,11 @@ class ActionPublierTouite extends Action {
                     if ($char === "#"){
                         $tagPresent = true;
                     }
-                    /*if($tagPresent && ($char === "<" || $char === ">" || $char === "(" || $char === ")" || $char === "-" || $char === "_")){
+                    if($tagPresent && ($char === "<" || $char === ">" || $char === "(" || $char === ")" || $char === "-" || $char === "_")){
                         $tagPresent=false;
                         $tag="";
-                    }*/
-                    if (($char === " " && $tagPresent)){
+                    }
+                    if ($char === " " && $tagPresent){
                         $tagPresent = false;
                         $tags[] = $tag;
                         $tag = "";
