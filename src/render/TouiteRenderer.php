@@ -26,7 +26,7 @@ class TouiteRenderer implements Renderer{
     //affichage simple 
     private function renderCompact() : string {
         $aff="";
-        $aff.="<a href='main.php?action=display-touite&param=one&id=".$this->touite->id."'><p class='touite'>{$this->touite->texte}</p></a><br>";
+        $aff.="<p class='touite'><a href='main.php?action=display-touite&id={$this->touite->id}'>{$this->touite->texte}</a></p><br>";
         return $aff;
     }
 
@@ -35,14 +35,14 @@ class TouiteRenderer implements Renderer{
         $cheminImg = $this->touite->cheminImage;
         $aff ="<p class='touite'>{$this->touite->texte}</p><br>";
         $aff.="Note : ".$this->touite->note."<br>";
-        // On affiche l'image du tweet s'il en a une
+
+        //image du tweet s'il en a une
         if (($this->touite->cheminImage) !== ""){
             $aff .= '<img src="'.$this->touite->cheminImage.'"/><br>';
         }
-        //on affiche l'utilisateur en lien pour afficher les touites de l'utilisateur
+        //utilisateur du touite
         $aff.="<a href='main.php?action=display-user&username=".$this->touite->username."'>Auteur : ".$this->touite->username."</a><br>";
-        //on affiche le lien pour follow l'utilisateur
-        $aff.="<a href='main.php?action=follow&username={$this->touite->username}'>Follow {$this->touite->username}</a><br>";
+
         //on affiche tout les tags en lien pour afficher les touites de ces tags
         foreach ($this->touite->tags as $key => $value) {
             $aff.="<a href='main.php?action=display-tag&title=".$value."'>Tag : ".$value."</a><br>";
@@ -59,7 +59,6 @@ class TouiteRenderer implements Renderer{
                     "<button type='submit' name='note' value='like' id='like'>Like</button>".
                     "<button type='submit' name='note' value='dislike' id='dislike'>Dislike</button>".
                     "<input type='hidden' name='action' value='display-touite'>".
-                    "<input type='hidden' name='param' value='one'>".
                     "<input type='hidden' name='id' value={$this->touite->id}>".
                     "</form>";
             }

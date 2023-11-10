@@ -4,13 +4,7 @@ namespace iutnc\touiteur\action;
 
 use \iutnc\touiteur\touite\Touite;
 use \iutnc\touiteur\render\TouiteRenderer;
-use \iutnc\touiteur\touite\Tag;
-use \iutnc\touiteur\render\TagRenderer;
-use \iutnc\touiteur\user\User;
-use \iutnc\touiteur\render\UserRenderer;
 use \iutnc\touiteur\db\ConnectionFactory;
-use \iutnc\touiteur\list\ListTouite;
-use \iutnc\touiteur\render\ListTouiteRenderer;
 
 class ActionAfficherTouite extends Action {
     public function execute () : string {
@@ -64,9 +58,8 @@ class ActionAfficherTouite extends Action {
         $statement = $connexion->prepare($query);
         $statement->bindParam(1, $idTouite);
         $statement->execute();
-        $result = $statement->fetch();
-        //si il n'y a pas d'image on n'affiche rien
-        if ($result !== NULL) {
+        $imagePresente = $statement->fetch();
+        if ($imagePresente) {
             $cheminImage = $result[0];
         }
         else {

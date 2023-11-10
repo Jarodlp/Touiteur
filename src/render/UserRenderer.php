@@ -30,8 +30,8 @@ class UserRenderer implements Renderer{
     public function renderLong() : string {
         $aff="";
         $aff.="Prénom : {$this->user->firstName}<br>Nom : {$this->user->lastName}<br><br>";
-        //on affiche le score moyen de ses touites et les personnes qui le suivent
         if (isset($_SESSION["user"])) {
+            //on affiche le score moyen de ses touites et les personnes qui le suivent
             $user = unserialize($_SESSION["user"]);
             //si la page de l'user afficher et le même que l'utilisateur connecté
             if($user->username == $this->user->username) {
@@ -55,6 +55,10 @@ class UserRenderer implements Renderer{
                 $aff.=$user->getNombreFollower()." utilisateurs sont abonnés à vous<br><br>";
                 //on affiche le nombre d'utilisateurs auquel on n'est abboné
                 $aff.="Vous êtes abonné à ".$user->getNombreFollow()." utilisateurs <br><br>";
+            }
+             //lien pour follow l'utilisateur si ce n'est pas nous
+            else {
+                $aff.="<a href='main.php?action=follow&username={$this->user->username}'>Follow {$this->user->username}</a><br>";
             }
         }
         return $aff;

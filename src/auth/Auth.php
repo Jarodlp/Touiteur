@@ -87,8 +87,7 @@ class Auth {
         $statement->bindParam(1, $username);
         $statement->execute();
         $result = $statement->fetch();
-        $_SESSION['user'] = serialize(new User($result['username'],$result['password'],$result['email']
-        ,$result['firstName'],$result['lastName']));
+        $_SESSION['user'] = serialize(new User($result['username'], $result['password'], $result['email'], $result['firstName'],$result['lastName']));
     }
 
 

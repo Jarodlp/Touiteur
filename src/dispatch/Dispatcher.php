@@ -4,6 +4,7 @@ namespace iutnc\touiteur\dispatch;
 
 use iutnc\touiteur\action\ActionAddUser;
 use iutnc\touiteur\action\ActionConnexion;
+use iutnc\touiteur\action\ActionDeconnection;
 use iutnc\touiteur\action\ActionDefault;
 
 use iutnc\touiteur\action\ActionFollow;
@@ -37,6 +38,11 @@ class Dispatcher{
 
             case "connexion":
                 $action = new ActionConnexion();
+                $affichage = $action->execute();
+                break;
+
+            case "deconnection":
+                $action = new ActionDeconnection();
                 $affichage = $action->execute();
                 break;
             
@@ -126,12 +132,14 @@ class Dispatcher{
         //si l'utilisateur n'est pas connecté on enlève certaines possibilités
         if (isset($_SESSION["user"])) {
             $user = unserialize($_SESSION["user"]);
+            //on teste si l'utilisateur est un admin
             if (Auth::checkUserEstAdmin($user->username)){
-                $aff .= '<li><a href="mainBO.php?">Accéder au back office</a></li>';
+                $aff .= '<li><a href="mainBO.php?">Accéder au back office</a></li><br>';
             }
                 $aff .= '<li><a href="main.php?action=display-mur&param=perso&page=1">Afficher mon mur</a></li><br>
                     <li><a href="main.php?action=publier-touite">Publier un touite</a></li><br>
-                    <li><a href="main.php?action=display-user&username=' . $user->username . '&page=1">Afficher mon profil</a></li><br>';
+                    <li><a href="main.php?action=display-user&username=' . $user->username . '&page=1">Afficher mon profil</a></li><br>
+                    <li><a href="main.php?action=deconnection">Se déconnecter</a></li><br>';
         } else {
             $aff.='<li><a href="main.php?action=add-user">Inscription</a></li><br>
                     <li><a href="main.php?action=connexion">Connexion</a></li><br>';

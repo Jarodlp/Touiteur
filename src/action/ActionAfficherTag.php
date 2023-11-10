@@ -8,6 +8,8 @@ use iutnc\touiteur\user\User;
 use iutnc\touiteur\list\ListTouite;
 use iutnc\touiteur\touite\Touite;
 use iutnc\touiteur\render\ListTouiteRenderer;
+use iutnc\touiteur\render\TagRenderer;
+use iutnc\touiteur\touite\Tag;
 
 class ActionAfficherTag extends Action {
     public function execute() : string {
