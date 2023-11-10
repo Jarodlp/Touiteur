@@ -107,14 +107,14 @@ class ActionPublierTouite extends Action {
                     }
 
                     // Et on récupère son ID
-                    $statement = $connexion->prepare('SELECT idImage from Image where fileName = ?');
+                    $statement = $connexion->prepare('SELECT idImage FROM image WHERE fileName = ?');
                     $statement->bindParam(1, $cheminImage);
                     $statement->execute();
                     $result = $statement->fetch();
                     $idImage = $result[0];
 
                     // Et on insère la liaison entre le touite et son image dans la bd
-                    $statement = $connexion->prepare('INSERT into touiteImage values (?,?)');
+                    $statement = $connexion->prepare('INSERT INTO touiteimage VALUES (?,?)');
                     $statement->bindParam(1, $idTouite);
                     $statement->bindParam(2, $idImage);
                     $statement->execute();
@@ -141,7 +141,7 @@ class ActionPublierTouite extends Action {
                         $idTag = $result[0];
                         // Et ensuite on insère la liaison entre le touite et son/ses tags dans la table touiteTag
                         try{
-                            $statement = $connexion->prepare('INSERT INTO touiteTag VALUES (?,?)');
+                            $statement = $connexion->prepare('INSERT INTO touitetag VALUES (?,?)');
                             $statement->bindParam(1, $idTouite);
                             $statement->bindParam(2, $idTag);
                             $statement->execute();

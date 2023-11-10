@@ -53,7 +53,7 @@ class ActionAfficherTouite extends Action {
         //on récupère le chemin de l'image
         $query = "SELECT fileName FROM image
         INNER JOIN touiteimage ON touiteimage.idImage = image.idImage
-        INNER JOIN touite ON touite.idTouite = touiteImage.idTouite
+        INNER JOIN touite ON touite.idTouite = touiteimage.idTouite
         WHERE touite.idTouite = ?";
         $statement = $connexion->prepare($query);
         $statement->bindParam(1, $idTouite);

@@ -37,8 +37,8 @@ class ActionAfficherTag extends Action {
     
             //on affiche les touites du tag
             $statment=$connexion->prepare("SELECT * FROM touite
-            INNER JOIN touiteTag ON touiteTag.idTouite = touite.idTouite
-            INNER JOIN tag ON tag.idTag = touiteTag.idTag 
+            INNER JOIN touitetag ON touitetag.idTouite = touite.idTouite
+            INNER JOIN tag ON tag.idTag = touitetag.idTag 
             WHERE tag.title = ?
             ORDER BY touite.dateTouite DESC");
             $tagTitle = $tag->title;

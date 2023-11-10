@@ -14,7 +14,7 @@ class ActionAfficherTendances extends Action {
         $connexion = ConnectionFactory::makeConnection();
 
         $statement = $connexion->prepare('SELECT title, COUNT(idTouite) AS nbOccurence FROM
-                                         tag LEFT JOINR touiteTag ON tag.idTag = touiteTag.idTag
+                                         tag LEFT JOIN touiteTag ON tag.idTag = touitetag.idTag
                                          GROUP BY title GROUP BY nbOccurence DESC');
         $statement->execute();
 

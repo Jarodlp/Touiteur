@@ -13,9 +13,9 @@ class ActionAfficherInfluenceurs extends Action {
 
         $connexion = ConnectionFactory::makeConnection();
 
-        $statement = $connexion->prepare('select user.username, count(userFollowed.username) as abonnes from
-                                         user left join userFollowed on user.username = userFollowed.usernameFollowed
-                                         group by user.username order by abonnes desc');
+        $statement = $connexion->prepare('SELECT user.username, COUNT(userFollowed.username) AS abonnes FROM
+                                         user LEFT JOIN userFollowed ON user.username = userFollowed.usernameFollowed
+                                         GROUP BY user.username ORDER BY abonnes DESC');
         $statement->execute();
 
         while ($result = $statement->fetch()){
