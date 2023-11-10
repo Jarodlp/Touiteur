@@ -36,8 +36,8 @@ class TouiteRenderer implements Renderer{
         $aff ="<p class='touite'>{$this->touite->texte}</p><br>";
         $aff.="Note : ".$this->touite->note."<br>";
         // On affiche l'image du tweet s'il en a une
-        if (!is_null($this->touite->cheminImage)){
-            $aff .= '<img src="'.$this->touite->cheminImage.'"/>';
+        if (($this->touite->cheminImage) !== ""){
+            $aff .= '<img src="'.$this->touite->cheminImage.'"/><br>';
         }
         //on affiche l'utilisateur en lien pour afficher les touites de l'utilisateur
         $aff.="<a href='main.php?action=display-touite&param=user&username=".$this->touite->username."'>Auteur : ".$this->touite->username."</a><br>";

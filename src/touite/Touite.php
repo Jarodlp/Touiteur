@@ -12,26 +12,13 @@ class Touite {
     protected array $tags;
     protected int $note;
 
-    public function __construct(int $id, string $texte, string $username, array $tags=[], int $note = 0){
+    public function __construct(int $id, string $texte, string $username, array $tags=[], int $note = 0, string $cheminImage=""){
         $this->id = $id;
         $this->texte= $texte;
         $this->username = $username;
         $this->tags = $tags;
         $this->note = $note;
-
-        // On regarde si le tweet est relié à une image dans la bd, si oui on l'ajoute à l'attribut cheminImage
-        $connexion = ConnectionFactory::makeConnection();
-        $statement = $connexion->prepare('SELECT fileName FROM touiteImage
-               inner join image on image.idImage = touiteImage.idImage
-               WHERE touiteImage.idTouite = ?');
-        $statement->bindParam(1, $id);
-        $statement->execute();
-        $result = $statement->fetch();
-        if ($result){
-            $this->cheminImage = $result["fileName"];
-        } else {
-            $this->cheminImage = "";
-        }
+        $this->cheminImage = $cheminImage;
     }
 
     public static function note(String $nomNote, int $id): String{

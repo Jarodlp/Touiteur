@@ -2,6 +2,8 @@
 
 namespace iutnc\touiteur\list;
 
+use \iutnc\touiteur\touite\Touite;
+
 class ListTouite{
     
     private int $length;
@@ -16,7 +18,7 @@ class ListTouite{
         }
     }
 
-    public function addTouite(\iutnc\touiteur\touite\Touite $touite){
+    public function addTouite(Touite $touite){
         array_push($this->touites,$touite);
         $this->length+=1;
     }

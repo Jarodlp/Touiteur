@@ -9,6 +9,8 @@ use \iutnc\touiteur\render\TagRenderer;
 use \iutnc\touiteur\user\User;
 use \iutnc\touiteur\render\UserRenderer;
 use \iutnc\touiteur\db\ConnectionFactory;
+use \iutnc\touiteur\list\ListTouite;
+use \iutnc\touiteur\render\ListTouiteRenderer;
 
 class ActionAfficherTouite extends Action {
     public function execute () :string {
@@ -18,15 +20,14 @@ class ActionAfficherTouite extends Action {
             case "none":
                 //on récupère tous les touites de la BD
                 $connexion = ConnectionFactory::makeConnection();
-                $query = "SELECT * FROM touite ORDER BY dateTouite DESC";
+                $query = "SELECT * FROM touite";
                 $result = $connexion->query($query);
-                $affichage.="Touites :<br><br>";
-                $listTouite=new \iutnc\touiteur\list\ListTouite();
+                $listTouite = new ListTouite();
                 while ($data = $result->fetch()) {
                     $touite = new Touite($data["idTouite"], $data["text"], $data["username"]);
                     $listTouite->addTouite($touite);
                 }
-                $listTouiteRenderer=new \iutnc\touiteur\render\ListTouiteRenderer($listTouite);
+                $listTouiteRenderer = new ListTouiteRenderer ($listTouite);
                 $affichage.=$listTouiteRenderer->render(1);
                 break;
 
@@ -73,7 +74,24 @@ class ActionAfficherTouite extends Action {
                     $note = 0;
                 }
 
-                $touite = new Touite($idTouite, $texte, $username, $tags, $note);
+                //on récupère le chemin de l'image
+                $query = "SELECT fileName FROM image
+                INNER JOIN touiteimage ON touiteimage.idImage = image.idImage
+                INNER JOIN touite ON touite.idTouite = touiteImage.idTouite
+                WHERE touite.idTouite = ?";
+                $statement = $connexion->prepare($query);
+                $statement->bindParam(1, $idTouite);
+                $statement->execute();
+                $result = $statement->fetch();
+                //si il n'y a pas d'image on n'affiche rien
+                if ($result !== NULL) {
+                    $cheminImage = $result[0];
+                }
+                else {
+                    $cheminImage = "";
+                }
+
+                $touite = new Touite($idTouite, $texte, $username, $tags, $note, $cheminImage);
                 $touiteRender = new TouiteRenderer($touite);
 
                 $affichage.=$touiteRender->render(2);
@@ -111,13 +129,12 @@ class ActionAfficherTouite extends Action {
                     $tagTitle = $tag->title;
                     $statment->bindParam(1, $tagTitle);
                     $statment->execute();
-                    $affichage.="Touites du tag :<br><br>";
-                    $listTouite=new \iutnc\touiteur\list\ListTouite();
+                    $listTouite=new ListTouite();
                     while($donnees = $statment->fetch()){
                         $touite = new Touite($donnees["idTouite"], $donnees["text"], $donnees["username"]);
                         $listTouite->addTouite($touite);
                     }
-                    $listTouiteRenderer=new \iutnc\touiteur\render\ListTouiteRenderer($listTouite);
+                    $listTouiteRenderer=new ListTouiteRenderer($listTouite);
                     $affichage.=$listTouiteRenderer->render(1);
                 }
                 break;
@@ -150,13 +167,12 @@ class ActionAfficherTouite extends Action {
                 $username = $user->username;
                 $statment->bindParam(1,$username);
                 $statment->execute();
-                $affichage.="Touites :<br><br>";
-                $listTouite=new \iutnc\touiteur\list\ListTouite();
+                $listTouite = new ListTouite();
                 while($donnees = $statment->fetch()){
                     $touite = new Touite($donnees["idTouite"], $donnees["text"], $donnees["username"]);
                     $listTouite->addTouite($touite);
                 }
-                $listTouiteRenderer=new \iutnc\touiteur\render\ListTouiteRenderer($listTouite);
+                $listTouiteRenderer = new ListTouiteRenderer($listTouite);
                 $affichage.=$listTouiteRenderer->render(1);
                 break;
             
@@ -164,9 +180,9 @@ class ActionAfficherTouite extends Action {
             case "perso":
                 $affichage.=User::getMur();
                 break;
-            
-                default:   
-                    $affichage.="Erreur de redirection";     
+
+            default:   
+                $affichage.="Erreur de redirection";     
         }
         return $affichage;
     }
