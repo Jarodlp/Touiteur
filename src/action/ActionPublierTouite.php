@@ -86,7 +86,7 @@ class ActionPublierTouite extends Action {
                 $statement->bindParam(2, $texte);
                 $statement->execute();
                 //on récupère l'id du touite
-                $statement = $connexion->prepare('SELECT max(idTouite) FROM touite WHERE username = ? AND text = ?');
+                $statement = $connexion->prepare('SELECT MAX(idTouite) FROM touite WHERE username = ? AND text = ?');
                 $statement->bindParam(1, $auteur);
                 $statement->bindParam(2, $texte);
                 $statement->execute();
@@ -101,20 +101,20 @@ class ActionPublierTouite extends Action {
                     $statement->execute();
                     $result = $statement->fetch();
                     if ($result[0] == 0) {
-                        $statement = $connexion->prepare('insert into image(fileName) values (?)');
+                        $statement = $connexion->prepare('INSERT INTO image(fileName) values (?)');
                         $statement->bindParam(1, $cheminImage);
                         $statement->execute();
                     }
 
                     // Et on récupère son ID
-                    $statement = $connexion->prepare('select idImage from Image where fileName = ?');
+                    $statement = $connexion->prepare('SELECT idImage from Image where fileName = ?');
                     $statement->bindParam(1, $cheminImage);
                     $statement->execute();
                     $result = $statement->fetch();
                     $idImage = $result[0];
 
                     // Et on insère la liaison entre le touite et son image dans la bd
-                    $statement = $connexion->prepare('insert into touiteImage values (?,?)');
+                    $statement = $connexion->prepare('INSERT into touiteImage values (?,?)');
                     $statement->bindParam(1, $idTouite);
                     $statement->bindParam(2, $idImage);
                     $statement->execute();

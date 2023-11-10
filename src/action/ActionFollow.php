@@ -34,7 +34,7 @@ class ActionFollow extends Action {
                 }
                 if(!$followed){
                     //cas où l'utilisateur courant ne follow pas déjà l'auteur
-                    $query="INSERT INTO userfollowed values(?, ?)";
+                    $query="INSERT INTO userfollowed VALUES(?, ?)";
                     $statement = $connexion->prepare($query);
                     $statement->bindParam(1,$username);
                     $statement->bindParam(2,$usernameFollow);
