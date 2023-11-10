@@ -116,7 +116,7 @@ class Dispatcher{
         $aff.='<nav>
                 <ul>
                 <li><a href="main.php">Accueil</a></li><br>                
-                <li><a href="main.php?action=display-all-touite&param=none&page=1">Afficher tous les touites</a></li><br>';
+                <li><a href="main.php?action=display-all-touites&param=none&page=1">Afficher tous les touites</a></li><br>';
         //si l'utilisateur n'est pas connecté on enlève certaines possibilités
         if (isset($_SESSION["user"])) {
             $user = unserialize($_SESSION["user"]);

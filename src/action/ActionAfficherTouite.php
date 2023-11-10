@@ -13,7 +13,7 @@ use \iutnc\touiteur\list\ListTouite;
 use \iutnc\touiteur\render\ListTouiteRenderer;
 
 class ActionAfficherTouite extends Action {
-    public function execute () :string {
+    public function execute () : string {
         $affichage = "";
         //on récupère le touite dans la BD grâce à son id et on l'affiche avec un lien par tags et le lien de l'utilisateur
         $idTouite = $_GET["id"];

@@ -9,7 +9,7 @@ use iutnc\touiteur\list\ListTouite;
 use iutnc\touiteur\touite\Touite;
 use iutnc\touiteur\render\ListTouiteRenderer;
 
-class ActionAfficherTouTouites extends Action {
+class ActionAfficherToutTouites extends Action {
     public function execute() : string {
         $aff="";
         //on récupère tous les touites de la BD
