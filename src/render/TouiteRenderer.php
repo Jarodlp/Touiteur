@@ -45,7 +45,7 @@ class TouiteRenderer implements Renderer{
         $aff.="<a href='main.php?action=follow&username={$this->touite->username}'>Follow {$this->touite->username}</a><br>";
         //on affiche tout les tags en lien pour afficher les touites de ces tags
         foreach ($this->touite->tags as $key => $value) {
-            $aff.="<a href='main.php?action=display-touite&param=tag&title=".$value."'>Tag : ".$value."</a><br>";
+            $aff.="<a href='main.php?action=display-tag&title=".$value."'>Tag : ".$value."</a><br>";
         }
         //si le touite appartient à l'utilisateur, on ajoute la fonction de suppression du touite
         if (isset($_SESSION['user'])) {

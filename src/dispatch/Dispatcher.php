@@ -5,14 +5,18 @@ namespace iutnc\touiteur\dispatch;
 use iutnc\touiteur\action\ActionAddUser;
 use iutnc\touiteur\action\ActionConnexion;
 use iutnc\touiteur\action\ActionDefault;
-use iutnc\touiteur\action\ActionAfficherTouite;
-use iutnc\touiteur\action\ActionAfficherUsers;
-use iutnc\touiteur\action\ActionAfficherTag;
+
 use iutnc\touiteur\action\ActionFollow;
 use iutnc\touiteur\action\ActionFollowTag;
+
 use iutnc\touiteur\action\ActionPublierTouite;
 use iutnc\touiteur\action\ActionSupprimerTouite;
+
+use iutnc\touiteur\action\ActionAfficherTouite;
+use iutnc\touiteur\action\ActionAfficherTag;
 use iutnc\touiteur\action\ActionAfficherUser;
+use iutnc\touiteur\action\ActionAfficherMur;
+use iutnc\touiteur\action\ActionAfficherToutTouites;
 
 class Dispatcher{
     private string $action="";
@@ -48,6 +52,11 @@ class Dispatcher{
 
             case "display-tag":
                 $action = new ActionAfficherTag();
+                $affichage = $action->execute();
+                break;
+
+            case "display-all-touites":
+                $action = new ActionAfficherToutTouites();
                 $affichage = $action->execute();
                 break;
 
@@ -107,7 +116,7 @@ class Dispatcher{
         $aff.='<nav>
                 <ul>
                 <li><a href="main.php">Accueil</a></li><br>                
-                <li><a href="main.php?action=display-touite&param=none&page=1">Afficher tous les touites</a></li><br>';
+                <li><a href="main.php?action=display-all-touite&param=none&page=1">Afficher tous les touites</a></li><br>';
         //si l'utilisateur n'est pas connecté on enlève certaines possibilités
         if (isset($_SESSION["user"])) {
             $user = unserialize($_SESSION["user"]);

@@ -5,6 +5,8 @@ namespace iutnc\touiteur\user;
 use iutnc\touiteur\db\ConnectionFactory;
 use \iutnc\touiteur\touite\Touite;
 use \iutnc\touiteur\render\TouiteRenderer;
+use \iutnc\touiteur\list\ListTouite;
+use \iutnc\touiteur\render\ListTouiteRenderer;
 
 class User
 {
@@ -106,22 +108,21 @@ class User
             $statment->bindParam(2, $username);
             $statment->execute();
             $affichage .= "Touites :<br><br>";
-            $listTouite=new \iutnc\touiteur\list\ListTouite();
+            $listTouite=new ListTouite();
             while($donnees = $statment->fetch()){
                 $touite = new Touite($donnees["idTouite"], $donnees["text"], $donnees["username"]);
                 $listTouite->addTouite($touite);
             }
-            $listTouiteRenderer=new \iutnc\touiteur\render\ListTouiteRenderer($listTouite);
+            $listTouiteRenderer = new ListTouiteRenderer($listTouite);
             $affichage.=$listTouiteRenderer->render(1);
-            $affichage .= "<br><br>";
+            $affichage.="<br><br>";
             if ($erreur) {
                 $affichage .= "Tag inexistant, veuillez entrer  un nom valide<br>Pensez à enlever le # si vous en avez mis un.";
             }
-            $action = "action=display-touite";
-            $affichage .= "<form id='form1' method='GET' action='main.php'>" .
+            $action = "action=display-tag";
+            $affichage .= "<form id='form1' method='GET' action='main.php'>".
                 "<input type='text' name='title'>" .
-                "<input type='hidden' name='action' value='display-touite'>" .
-                "<input type='hidden' name='param' value='tag'>" .
+                "<input type='hidden' name='action' value='display-touite'>".
                 "<button type='submit'>Rechercher un Tag</button>" .
                 "</form>";
         } else {
