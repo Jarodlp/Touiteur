@@ -23,7 +23,8 @@ class ActionPublierTouite extends Action {
             }
         }
         else if ($this->http_method == "POST") {
-            $texte = $_POST["touite"];
+            $texte=$_POST["touite"];
+            //$texte = filter_var($_POST["touite"],FILTER_SANITIZE_SPECIAL_CHARS);
             //si le texte est vide on réaffiche le formulaire
             if (empty($texte)) {
                 $aff.="Vous n'avez pas rentré de texte dans votre touite";
@@ -60,7 +61,11 @@ class ActionPublierTouite extends Action {
                     if ($char === "#"){
                         $tagPresent = true;
                     }
-                    if ($char === " " && $tagPresent){
+                    if($tagPresent && ($char === "<" || $char === ">" || $char === "(" || $char === ")" || $char === "-" || $char === "_")){
+                        $tagPresent=false;
+                        $tag="";
+                    }
+                    if (($char === " " && $tagPresent)){
                         $tagPresent = false;
                         $tags[] = $tag;
                         $tag = "";
@@ -114,32 +119,35 @@ class ActionPublierTouite extends Action {
                     $statement->execute();
                 }
 
-                //on récupère les tags
-                foreach ($tags as $tag) {
-                    // on recherche si le tag existe déjà dans la BD
-                    $statement = $connexion->prepare('SELECT COUNT(*) FROM tag WHERE title = ?');
-                    $statement->bindParam(1, $tag);
-                    $statement->execute();
-                    $result = $statement->fetch();
-                    // S'il existe pas, on le crée
-                    if ($result[0] == 0) {
-                        $statement = $connexion->prepare('INSERT INTO tag(title, descriptionTag) VALUES (?, ?)');
+                if(sizeof($tags)>0){
+                    foreach ($tags as $tag) {
+                        // on recherche si le tag existe déjà dans la BD
+                        $statement = $connexion->prepare('SELECT COUNT(*) FROM tag WHERE title = ?');
                         $statement->bindParam(1, $tag);
-                        $statement->bindParam(2, $tag);
+                        $statement->execute();
+                        $result = $statement->fetch();
+                        // S'il existe pas, on le crée
+                        if ($result[0] == 0) {
+                            $statement = $connexion->prepare('INSERT INTO tag(title, descriptionTag) VALUES (?, ?)');
+                            $statement->bindParam(1, $tag);
+                            $statement->bindParam(2, $tag);
+                            $statement->execute();
+                        }
+                        // On récupère l'id du tag
+                        $statement = $connexion->prepare('SELECT idTag FROM tag WHERE title = ?');
+                        $statement->bindParam(1, $tag);
+                        $statement->execute();
+                        $result = $statement->fetch();
+                        $idTag = $result[0];
+                        // Et ensuite on insère la liaison entre le touite et son/ses tags dans la table touiteTag
+                        $statement = $connexion->prepare('INSERT INTO touiteTag VALUES (?,?)');
+                        $statement->bindParam(1, $idTouite);
+                        $statement->bindParam(2, $idTag);
                         $statement->execute();
                     }
-                    // On récupère l'id du tag
-                    $statement = $connexion->prepare('SELECT idTag FROM tag WHERE title = ?');
-                    $statement->bindParam(1, $tag);
-                    $statement->execute();
-                    $result = $statement->fetch();
-                    $idTag = $result[0];
-                    // Et ensuite on insère la liaison entre le touite et son/ses tags dans la table touiteTag
-                    $statement = $connexion->prepare('INSERT INTO touiteTag VALUES (?,?)');
-                    $statement->bindParam(1, $idTouite);
-                    $statement->bindParam(2, $idTag);
-                    $statement->execute();
                 }
+                //on récupère les tags
+                
 
                 $touite = new Touite($idTouite, $texte, $auteur, $tags, 0, $cheminImage);
                 $touiteRenderer = new TouiteRenderer($touite);
