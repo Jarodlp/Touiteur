@@ -13,12 +13,13 @@ class ActionAfficherInfluenceurs extends Action {
 
         $connexion = ConnectionFactory::makeConnection();
 
-        $statement = $connexion->prepare('select usernameFollowed, count(username) as abonnes from userfollowed 
-                                         group by usernameFollowed order by abonnes asc');
+        $statement = $connexion->prepare('select user.username, count(userFollowed.username) as abonnes from
+                                         user left join userFollowed on user.username = userFollowed.usernameFollowed
+                                         group by user.username order by abonnes desc');
         $statement->execute();
 
         while ($result = $statement->fetch()){
-            $aff .= "$i) " . $result["usernameFollowed"] . ", " . $result["abonnes"] . " abonnés <br>";
+            $aff .= "$i) " . $result["username"] . ", " . $result["abonnes"] . " abonnés <br>";
             $i ++;
         }
 

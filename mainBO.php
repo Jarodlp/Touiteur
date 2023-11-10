@@ -1,12 +1,13 @@
 <?php
 
-use iutnc\touiteur\auth\Auth;
+require_once "vendor/autoload.php";
+
+use iutnc\touiteur\db\ConnectionFactory;
 use \iutnc\touiteurBO\dispatch\Dispatcher;
 
-$user = unserialize($_SESSION["user"]);
-if (Auth::checkUserEstAdmin($user->username)) {
+session_start();
+
+ConnectionFactory::setConfig('db.config.ini');
+
     $dispatcher = new Dispatcher();
     $dispatcher->run();
-} else {
-    echo "vous n'êtes pas admin, vous n'avez pas accès au back office";
-}
