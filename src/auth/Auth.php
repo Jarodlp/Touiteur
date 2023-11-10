@@ -69,6 +69,16 @@ class Auth {
         else{return false;}
     }
 
+    public static function checkUserEstAdmin(string $username) : bool{
+        $connexion = ConnectionFactory::makeConnection();
+        $query = "SELECT count(*) FROM admin WHERE username = ?";
+        $statement = $connexion->prepare($query);
+        $statement->bindParam(1, $username);
+        $statement->execute();
+        $result = $statement->fetch();
+        return ($result[0] === 1);
+    }
+
     //charge l'utilisateur dans la session
     public static function loadProfile(string $username): void {
         $connexion = ConnectionFactory::makeConnection();

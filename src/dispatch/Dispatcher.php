@@ -17,6 +17,7 @@ use iutnc\touiteur\action\ActionAfficherTag;
 use iutnc\touiteur\action\ActionAfficherUser;
 use iutnc\touiteur\action\ActionAfficherMur;
 use iutnc\touiteur\action\ActionAfficherToutTouites;
+use iutnc\touiteur\auth\Auth;
 
 class Dispatcher{
     private string $action="";
@@ -125,11 +126,14 @@ class Dispatcher{
         //si l'utilisateur n'est pas connecté on enlève certaines possibilités
         if (isset($_SESSION["user"])) {
             $user = unserialize($_SESSION["user"]);
-            $aff.='<li><a href="main.php?action=display-mur&param=perso&page=1">Afficher mon mur</a></li><br>
+            if (Auth::checkUserEstAdmin($user->username)){
+                $aff .= '<li><a href="mainBO.php?">Accéder au back office</a></li>';
+            } else {
+                $aff .= '<li><a href="main.php?action=display-mur&param=perso&page=1">Afficher mon mur</a></li><br>
                     <li><a href="main.php?action=publier-touite">Publier un touite</a></li><br>
-                    <li><a href="main.php?action=display-user&username='.$user->username.'&page=1">Afficher mon profil</a></li><br>';                    
-        }
-        else {
+                    <li><a href="main.php?action=display-user&username=' . $user->username . '&page=1">Afficher mon profil</a></li><br>';
+            }
+        } else {
             $aff.='<li><a href="main.php?action=add-user">Inscription</a></li><br>
                     <li><a href="main.php?action=connexion">Connexion</a></li><br>';
         }    

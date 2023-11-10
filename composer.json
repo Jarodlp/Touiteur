@@ -5,7 +5,8 @@
 
     "autoload":{
         "psr-4":{
-            "iutnc\\touiteur\\":"./src"
+            "iutnc\\touiteur\\":"./src",
+            "iutnc\\touiteurBO\\":"./srcAdmin"
         }
     }
 }
