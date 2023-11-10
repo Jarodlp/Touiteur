@@ -4,6 +4,7 @@ namespace iutnc\touiteurBO\dispatch;
 
 use iutnc\touiteur\auth\Auth;
 use iutnc\touiteurBO\action\ActionAfficherInfluenceurs;
+use iutnc\touiteurBO\action\ActionAfficherTendances;
 use iutnc\touiteurBO\action\ActionDefault;
 
 class Dispatcher{
@@ -15,20 +16,20 @@ class Dispatcher{
         }
     }
 
-    public function run()
+    public function run(): void
     {
         if (isset($_SESSION)) {
             $user = unserialize($_SESSION["user"]);
             if (Auth::checkUserEstAdmin($user->username)) {
 
                 switch ($this->action) {
-                    case "afficher-influenceur":
+                    case "afficher-influenceurs":
                         $action = new ActionAfficherInfluenceurs();
                         $affichage = $action->execute();
                         break;
 
-                    case "connexion":
-                        $action = new ActionConnexion();
+                    case "afficher-tendances":
+                        $action = new ActionAfficherTendances();
                         $affichage = $action->execute();
                         break;
 
@@ -44,7 +45,7 @@ class Dispatcher{
             }
         } else {
             $this->renderPage("vous n'êtes pas connecté et vous essayer d'accéder au back office de façon
-            intrusive",'<li><a href="main.php">Retourner sur Touiteur</a></li><br>');
+            intrusive<br><br>",'<li><a href="main.php">Retourner sur Touiteur</a></li><br>');
         }
     }
 
@@ -70,7 +71,8 @@ class Dispatcher{
     private function menu() : string {
         $aff ='<nav>
                 <ul>         
-                <li><a href="mainBO.php?action=afficher-influenceur">Afficher la liste des influenceurs</a></li><br>
+                <li><a href="mainBO.php?action=afficher-influenceurs">Afficher la liste des influenceurs</a></li><br>
+                <li><a href="mainBO.php?action=afficher-tendances">Afficher les tags en tendances</a></li><br>
                 <li><a href="mainBO.php">Retourner sur l\'accueil du back office de Touiteur</a></li><br>
                 <li><a href="main.php">Retourner sur Touiteur</a></li><br>';
         $aff.='</ul>
