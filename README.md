@@ -1,5 +1,5 @@
 # Touiteur
-RONOT Martin -> martinronot
+RONOT Martin -> MartinRNT
 
 TOUSSAINT Jarod -> Jarodlp
 
