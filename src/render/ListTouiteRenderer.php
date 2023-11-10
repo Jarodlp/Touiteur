@@ -14,7 +14,6 @@ class ListTouiteRenderer implements Renderer{
 
     public function render(int $selector):String{
         $action = $_GET["action"];
-        $param = $_GET["param"];
         $affichage = "";
         //système de pagination au-delà de 10 touites.
         if($this->list->length>10){
@@ -32,7 +31,6 @@ class ListTouiteRenderer implements Renderer{
                     $affichage.="<form id='form1' method='GET' action='main.php'>".
                             "<button type='submit' name='page' value={$previousPage} id='nextPage'>Previous page</button>". 
                             "<input type='hidden' name='action' value='display-touite'>".
-                            "<input type='hidden' name='param' value={$param}>".
                             "</form><br>";
                 } else{
                     //cas où il y a plus de 10 touites et nous ne sommes pas sur la première page
@@ -53,7 +51,6 @@ class ListTouiteRenderer implements Renderer{
                             "<button type='submit' name='page' value={$previousPage} id='previousPage'>Previous Page</button>". 
                             "<button type='submit' name='page' value={$nextPage} id='nextPage'>Next Page</button>". 
                             "<input type='hidden' name='action' value='display-touite'>".
-                            "<input type='hidden' name='param' value={$param}>".
                             "</form><br>";
                 }
             } else{
@@ -64,7 +61,6 @@ class ListTouiteRenderer implements Renderer{
                 $affichage.="<form id='form1' method='GET' action='main.php'>".
                             "<button type='submit' name='page' value=2 id='nextPage'>Next Page</button>". 
                             "<input type='hidden' name='action' value='display-touite'>".
-                            "<input type='hidden' name='param' value={$param}>".
                             "</form><br>";
             }
         } else{

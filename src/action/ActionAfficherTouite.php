@@ -20,7 +20,7 @@ class ActionAfficherTouite extends Action {
             case "none":
                 //on récupère tous les touites de la BD
                 $connexion = ConnectionFactory::makeConnection();
-                $query = "SELECT * FROM touite";
+                $query = "SELECT * FROM touite ORDER BY dateTouite DESC";
                 $result = $connexion->query($query);
                 $listTouite = new ListTouite();
                 while ($data = $result->fetch()) {
@@ -125,7 +125,8 @@ class ActionAfficherTouite extends Action {
                     $statment=$connexion->prepare("SELECT * FROM touite
                     INNER JOIN touiteTag ON touiteTag.idTouite = touite.idTouite
                     INNER JOIN tag ON tag.idTag = touiteTag.idTag 
-                    WHERE tag.title = ?");
+                    WHERE tag.title = ?
+                    ORDER BY touite.dateTouite DESC");
                     $tagTitle = $tag->title;
                     $statment->bindParam(1, $tagTitle);
                     $statment->execute();
@@ -137,43 +138,6 @@ class ActionAfficherTouite extends Action {
                     $listTouiteRenderer=new ListTouiteRenderer($listTouite);
                     $affichage.=$listTouiteRenderer->render(1);
                 }
-                break;
-            
-            //on affiche les touites d'un utilisateur
-            case "user":
-                //on récupère l'utilisateur dans la BD grâce au paramètre username dans le GET
-                //si il y a l'attribut username dans GET c'est que l'utilisateur veut afficher un utilisateur 
-                if (isset($_GET["username"])) {
-                    $username = $_GET["username"];
-                }
-                //sinon  il veut s'afficher lui même en ayant cliqué sur le lien afficher profil
-                else if (isset($_SESSION["user"])){
-                    $user = unserialize($_SESSION["user"]);
-                    $username = $user->username;
-                }
-                //sinon ça veut dire qu'il n'est pas connecté
-                $connexion = ConnectionFactory::makeConnection();
-                $query = "SELECT * FROM user WHERE user.username=:u_username";
-                $statment = $connexion->prepare($query);
-                $statment->bindParam(':u_username', $username, \PDO::PARAM_STR);
-                $statment->execute();
-                $donnees = $statment->fetch();
-                $user = new User($donnees['username'],$donnees['password'],$donnees['email'],$donnees['firstName'],$donnees['lastName']);
-                $userRenderer = new UserRenderer($user);
-                $affichage.=$userRenderer->render(2);
-
-                //on récupère les touites de l'utilisateur courant affin de les afficher sur son mur
-                $statment = $connexion->prepare("SELECT * FROM touite WHERE touite.username = ?");
-                $username = $user->username;
-                $statment->bindParam(1,$username);
-                $statment->execute();
-                $listTouite = new ListTouite();
-                while($donnees = $statment->fetch()){
-                    $touite = new Touite($donnees["idTouite"], $donnees["text"], $donnees["username"]);
-                    $listTouite->addTouite($touite);
-                }
-                $listTouiteRenderer = new ListTouiteRenderer($listTouite);
-                $affichage.=$listTouiteRenderer->render(1);
                 break;
             
             //on affiche le mur de l'utilisateur avec les touites qui l'intéressent

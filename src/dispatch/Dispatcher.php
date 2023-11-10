@@ -12,6 +12,7 @@ use iutnc\touiteur\action\ActionFollow;
 use iutnc\touiteur\action\ActionFollowTag;
 use iutnc\touiteur\action\ActionPublierTouite;
 use iutnc\touiteur\action\ActionSupprimerTouite;
+use iutnc\touiteur\action\ActionAfficherUser;
 
 class Dispatcher{
     private string $action="";
@@ -37,6 +38,16 @@ class Dispatcher{
             //affiche tous les touites
             case "display-touite":
                 $action = new ActionAfficherTouite();
+                $affichage = $action->execute();
+                break;
+
+            case "display-user":
+                $action = new ActionAfficherUser();
+                $affichage = $action->execute();
+                break;
+
+            case "display-tag":
+                $action = new ActionAfficherTag();
                 $affichage = $action->execute();
                 break;
 
@@ -99,9 +110,10 @@ class Dispatcher{
                 <li><a href="main.php?action=display-touite&param=none&page=1">Afficher tous les touites</a></li><br>';
         //si l'utilisateur n'est pas connecté on enlève certaines possibilités
         if (isset($_SESSION["user"])) {
+            $user = unserialize($_SESSION["user"]);
             $aff.='<li><a href="main.php?action=display-touite&param=perso&page=1">Afficher mon mur</a></li><br>
                     <li><a href="main.php?action=publier-touite">Publier un touite</a></li><br>
-                    <li><a href="main.php?action=display-touite&param=user&page=1">Afficher mon profil</a></li><br>';                    
+                    <li><a href="main.php?action=display-user&username='.$user->username.'&page=1">Afficher mon profil</a></li><br>';                    
         }
         else {
             $aff.='<li><a href="main.php?action=add-user">Inscription</a></li><br>

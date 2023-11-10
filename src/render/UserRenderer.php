@@ -23,13 +23,12 @@ class UserRenderer implements Renderer{
 
     //affichage simple 
     public function renderCompact() : string {
-        return "Username de l'utilisateur : {$this->user->username}<br>";
+        return "<a href='main.php?action=display-user&username={$this->user->username}'>{$this->user->username}</a><br>";
     }
 
     //affichage complet avec toutes les infos
     public function renderLong() : string {
         $aff="";
-        $aff.="Profil de :<br>";
         $aff.="Prénom : {$this->user->firstName}<br>Nom : {$this->user->lastName}<br><br>";
         //on affiche le score moyen de ses touites et les personnes qui le suivent
         if (isset($_SESSION["user"])) {
@@ -53,9 +52,9 @@ class UserRenderer implements Renderer{
                     $aff.=$userRenderer->render(1);
                 }
                 //on affiche le nombre d'utilisateur abbonés à l'utilisateur
-                $aff.=$user->getNombreFollower()." utilisateurs sont abbonés à vous<br><br>";
+                $aff.=$user->getNombreFollower()." utilisateurs sont abonnés à vous<br><br>";
                 //on affiche le nombre d'utilisateurs auquel on n'est abboné
-                $aff.="Vous êtes abboné à ".$user->getNombreFollow()." utilisateurs <br><br>";
+                $aff.="Vous êtes abonné à ".$user->getNombreFollow()." utilisateurs <br><br>";
             }
         }
         return $aff;

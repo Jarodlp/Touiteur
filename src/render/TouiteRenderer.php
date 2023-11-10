@@ -40,7 +40,7 @@ class TouiteRenderer implements Renderer{
             $aff .= '<img src="'.$this->touite->cheminImage.'"/><br>';
         }
         //on affiche l'utilisateur en lien pour afficher les touites de l'utilisateur
-        $aff.="<a href='main.php?action=display-touite&param=user&username=".$this->touite->username."'>Auteur : ".$this->touite->username."</a><br>";
+        $aff.="<a href='main.php?action=display-user&username=".$this->touite->username."'>Auteur : ".$this->touite->username."</a><br>";
         //on affiche le lien pour follow l'utilisateur
         $aff.="<a href='main.php?action=follow&username={$this->touite->username}'>Follow {$this->touite->username}</a><br>";
         //on affiche tout les tags en lien pour afficher les touites de ces tags
