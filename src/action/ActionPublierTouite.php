@@ -150,7 +150,6 @@ class ActionPublierTouite extends Action {
                 
                 //on récupère les tags
                 
-                $texte=filter_var($texte,FILTER_SANITIZE_SPECIAL_CHARS);
                 $touite = new Touite($idTouite, $texte, $auteur, $tags, 0, $cheminImage);
                 $touiteRenderer = new TouiteRenderer($touite);
 

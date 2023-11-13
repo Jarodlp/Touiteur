@@ -9,6 +9,7 @@ class TouiteRenderer implements Renderer{
 
     public function __construct(Touite $touite) {
         $this->touite = $touite;
+        $this->touite->texte=filter_var($this->touite->texte, FILTER_SANITIZE_SPECIAL_CHARS);
     }
 
     //affichage du touite
