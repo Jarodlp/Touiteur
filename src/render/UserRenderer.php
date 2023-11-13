@@ -50,15 +50,13 @@ class UserRenderer implements Renderer{
                 }
                 else if (count($followers) == 1) {
                     $aff.="Vous avez 1 abonné :<br>";
-                    $user = $followers[0];
-                    $userRenderer = new UserRenderer($user);
+                    $userRenderer = new UserRenderer($followers[0]);
                     $aff.=$userRenderer->render(1);
                 }
                 else {
                     $aff.="Vous avez ".count($followers)." abonnés :<br>";
                     foreach ($followers as $key => $value) {
-                        $user = $value;
-                        $userRenderer = new UserRenderer($user);
+                        $userRenderer = new UserRenderer($value);
                         $aff.=$userRenderer->render(1);
                     }
                 }
@@ -69,12 +67,13 @@ class UserRenderer implements Renderer{
                 }
                 else if (count($follows) == 1) {
                     $aff.="Vous êtes abonné à 1 personne :<br>";
+                    $userRenderer = new UserRenderer($follows[0]);
+                    $aff.=$userRenderer->render(1);
                 }
                 else {
                     $aff.="Vous êtes abonné à ".count($follows)." personnes :<br>";
                     foreach ($follows as $key => $value) {
-                        $user = $value;
-                        $userRenderer = new UserRenderer($user);
+                        $userRenderer = new UserRenderer($value);
                         $aff.=$userRenderer->render(1);
                     }
                 }
