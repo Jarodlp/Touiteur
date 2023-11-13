@@ -109,7 +109,7 @@ class Touite {
         }
     }
 
-    public function __set(string $attr, int $val) : void {
+    public function __set(string $attr, mixed $val) : void {
         if (property_exists($this, $attr)){
             $this->$attr = $val;
         } else{
