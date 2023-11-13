@@ -71,13 +71,12 @@ class Auth {
 
     public static function checkUserEstAdmin(string $username) : bool { 
         $connexion = ConnectionFactory::makeConnection();
-        $admin="admin";
-        $query = "SELECT COUNT(*) FROM {$admin} WHERE username = ?";
+        $query = "SELECT COUNT(*) FROM admin WHERE username = ?";
         $statement = $connexion->prepare($query);
         $statement->bindParam(1, $username);
         $statement->execute();
         $result = $statement->fetch();
-        return ($result[0] === 1);
+        return ($result[0] == 1);
     }
 
     //charge l'utilisateur dans la session

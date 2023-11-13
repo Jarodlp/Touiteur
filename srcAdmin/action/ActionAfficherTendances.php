@@ -13,9 +13,10 @@ class ActionAfficherTendances extends Action {
 
         $connexion = ConnectionFactory::makeConnection();
 
-        $statement = $connexion->prepare('SELECT title, COUNT(idTouite) AS nbOccurence FROM
-                                         tag LEFT JOIN touiteTag ON tag.idTag = touitetag.idTag
-                                         GROUP BY title GROUP BY nbOccurence DESC');
+        $statement = $connexion->prepare('SELECT title, COUNT(idTouite) AS nbOccurence FROM tag 
+                                         LEFT JOIN touiteTag ON tag.idTag = touitetag.idTag
+                                         GROUP BY title
+                                         ORDER BY nbOccurence ASC');
         $statement->execute();
 
         while ($result = $statement->fetch()){

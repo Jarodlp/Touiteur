@@ -45,7 +45,7 @@ class Touite {
             $statement->bindParam(2, $idTouite);
             $statement->execute();
             $result = $statement->fetch();
-            $notePresente = ($result[0] === 1);
+            $notePresente = ($result[0] == 1);
             //si l'ulitilisateur à déjà like ou dislike, on modifie la table
             if ($notePresente) {
                 //la note déjà présente en BD

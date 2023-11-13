@@ -55,26 +55,24 @@ class ActionPublierTouite extends Action {
                 $tags = [];
                 $tagPresent = false;
                 $tag = "";
-                foreach ($str as $char){
-                    if ($tagPresent){
+                foreach ($str as $char) {
+                    if ($char === " " && $tagPresent) {
+                        if(preg_match("#[\W]#", $tag) == 0) {
+                            $tags[] = $tag;
+                        }
+                        $tagPresent = false;
+                        $tag = "";
+                    }
+                    else if ($tagPresent) {
                         $tag .= $char;
                     }
-                    if ($char === "#"){
+                    else if ($char === "#") {
                         $tagPresent = true;
-                    }
-                    if ($char === " " && $tagPresent){
-                        $tagPresent = false;
-                        if(!$special = preg_match("#[\W]#", $tag)){
-                            $tags[] = $tag;
-                        } 
-                        $tag = "";
                     }
                 }
                 //si le tag est la toute fin du texte
-                if ($tagPresent){
-                    if(!$special = preg_match("#[\W]#", $tag)){
-                        $tags[] = $tag;
-                    } 
+                if ($tagPresent && preg_match("#[\W]#", $tag) == 0){
+                    $tags[] = $tag;
                 }
 
                 $user = unserialize($_SESSION["user"]);

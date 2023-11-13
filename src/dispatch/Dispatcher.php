@@ -109,9 +109,17 @@ class Dispatcher{
                 <link href="style.css" rel="stylesheet">
             </head>
             <body>
-                <h1>TOUITEUR</h1>
-                {$affichage}
-                {$menu}
+                <header>    
+                    <h1>TOUITEUR</h1>
+                </header>
+                <main>
+                    {$affichage}
+                </main>
+                <nav>
+                    <ul>
+                        {$menu}
+                    </ul>
+                </nav>
             </body>
         </html>
         EOT;
@@ -120,9 +128,7 @@ class Dispatcher{
 
     private function menu() : string {
         $aff="";
-        $aff.='<nav>
-                <ul>
-                <li><a href="main.php">Accueil</a></li><br>                
+        $aff.='<li><a href="main.php">Accueil</a></li><br>                
                 <li><a href="main.php?action=display-all-touites&param=none&page=1">Afficher tous les touites</a></li><br>';
         //si l'utilisateur n'est pas connecté on enlève certaines possibilités
         if (isset($_SESSION["user"])) {
@@ -139,9 +145,7 @@ class Dispatcher{
         else {
             $aff.='<li><a href="main.php?action=add-user">Inscription</a></li><br>
                     <li><a href="main.php?action=connexion">Connexion</a></li><br>';
-        }    
-        $aff.='</ul>
-            </nav>';                           
+        }                             
         return $aff;
     }
 }
